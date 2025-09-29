@@ -124,7 +124,7 @@ const OrganizationObjectives = () => {
             Our Mission & Objectives
           </h2>
           <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            CompassionCare is committed to creating a more compassionate world through comprehensive 
+            Prakriti Foundation is committed to creating a more compassionate world through comprehensive 
             humanitarian initiatives. Our objectives guide every action we take and every life we touch.
           </p>
         </div>

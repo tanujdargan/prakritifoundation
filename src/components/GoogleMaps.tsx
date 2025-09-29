@@ -39,7 +39,7 @@ const GoogleMaps = () => {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="CompassionCare Location"
+                title="Prakriti Foundation Location"
               />
             </div>
           </div>

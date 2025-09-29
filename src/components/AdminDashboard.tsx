@@ -39,7 +39,7 @@ const AdminDashboard = () => {
     startDate: '',
     endDate: '',
     achievements: '',
-    supervisorName: 'CompassionCare Admin',
+    supervisorName: 'Prakriti Foundation Admin',
     certificateType: 'Volunteer Appreciation',
     certificateNo: ''
   });
@@ -163,7 +163,7 @@ const AdminDashboard = () => {
       startDate: '',
       endDate: '',
       achievements: '',
-      supervisorName: 'CompassionCare Admin',
+      supervisorName: 'Prakriti Foundation Admin',
       certificateType: 'Volunteer Appreciation',
       certificateNo: ''
     });
@@ -184,7 +184,7 @@ const AdminDashboard = () => {
               <Heart className="h-6 w-6 text-blue-600" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">CompassionCare</h1>
+              <h1 className="text-2xl font-bold">Prakriti Foundation</h1>
               <p className="text-sm text-gray-500 flex items-center">
                 <Home className="h-3 w-3 mr-1" />
                 Back to Website
@@ -519,7 +519,7 @@ const AdminDashboard = () => {
                             <Award className="h-12 w-12 text-blue-600" />
                           </div>
                           <div>
-                            <h1 className="text-4xl font-bold text-blue-600 mb-2">CompassionCare</h1>
+                            <h1 className="text-4xl font-bold text-blue-600 mb-2">Prakriti Foundation</h1>
                             <p className="text-lg text-gray-600">Humanitarian NGO</p>
                           </div>
                         </div>
@@ -582,7 +582,7 @@ const AdminDashboard = () => {
                       {/* Organization Details */}
                       <div className="text-center mt-8 pt-4 border-t border-gray-300">
                         <p className="text-xs text-gray-500">
-                          CompassionCare | 123 Compassion Street, Mumbai - 400001 | +91 9876543210 | info@compassioncare.org
+                          Prakriti Foundation | 123 Compassion Street, Mumbai - 400001 | +91 9876543210 | info@Prakriti Foundation.org
                         </p>
                       </div>
                     </div>

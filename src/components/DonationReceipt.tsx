@@ -32,7 +32,7 @@ const DonationReceipt: React.FC<DonationReceiptProps> = ({ isOpen, onClose }) =>
     amountInWords: '',
     panNumber: '',
     aadharNumber: '',
-    receivedBy: 'CompassionCare Admin'
+    receivedBy: 'Prakriti Foundation Admin'
   });
   
   const [isGenerating, setIsGenerating] = useState(false);
@@ -322,14 +322,14 @@ const DonationReceipt: React.FC<DonationReceiptProps> = ({ isOpen, onClose }) =>
                     <Receipt className="h-8 w-8 text-blue-600" />
                   </div>
                   <div>
-                    <h1 className="text-2xl font-bold text-gray-900">CompassionCare</h1>
+                    <h1 className="text-2xl font-bold text-gray-900">Prakriti Foundation</h1>
                     <p className="text-sm text-gray-600">Humanitarian NGO</p>
                   </div>
                 </div>
                 <div className="text-sm text-gray-600">
                   <p>123 Compassion Street, Animal Welfare District</p>
                   <p>Mumbai - 400001, Maharashtra, India</p>
-                  <p>Phone: +91 9876543210 | Email: info@compassioncare.org</p>
+                  <p>Phone: +91 9876543210 | Email: info@Prakriti Foundation.org</p>
                 </div>
               </div>
 
@@ -394,7 +394,7 @@ const DonationReceipt: React.FC<DonationReceiptProps> = ({ isOpen, onClose }) =>
                   <div className="w-24 h-16 bg-gray-100 border border-gray-300 rounded flex items-center justify-center mb-2">
                     <p className="text-xs text-gray-500">Official Seal</p>
                   </div>
-                  <p className="text-xs text-gray-500">CompassionCare</p>
+                  <p className="text-xs text-gray-500">Prakriti Foundation</p>
                 </div>
               </div>
 

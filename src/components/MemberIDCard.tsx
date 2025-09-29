@@ -314,7 +314,7 @@ const MemberIDCard: React.FC<MemberIDCardProps> = ({ isOpen, onClose }) => {
                       <CreditCard className="h-6 w-6 text-blue-600" />
                     </div>
                     <div>
-                      <h3 className="text-sm font-bold">CompassionCare</h3>
+                      <h3 className="text-sm font-bold">Prakriti Foundation</h3>
                       <p className="text-xs opacity-90">Member ID Card</p>
                     </div>
                   </div>
@@ -346,7 +346,7 @@ const MemberIDCard: React.FC<MemberIDCardProps> = ({ isOpen, onClose }) => {
 
                 {/* Card Footer */}
                 <div className="mt-4 pt-2 border-t border-blue-400 text-center">
-                  <p className="text-xs opacity-75">Authorized Member | CompassionCare NGO</p>
+                  <p className="text-xs opacity-75">Authorized Member | Prakriti Foundation NGO</p>
                 </div>
               </div>
             </div>

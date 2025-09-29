@@ -117,7 +117,7 @@ const ContactForm = () => {
                   <Mail className="h-5 w-5 text-blue-600 mt-1" />
                   <div>
                     <p className="font-medium text-gray-900">Email</p>
-                    <p className="text-gray-600">support@compassioncare.org</p>
+                    <p className="text-gray-600">support@Prakriti Foundation.org</p>
                     <p className="text-sm text-gray-500">Response within 24 hours</p>
                   </div>
                 </div>

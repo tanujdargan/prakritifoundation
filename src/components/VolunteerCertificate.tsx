@@ -30,7 +30,7 @@ const VolunteerCertificate: React.FC<VolunteerCertificateProps> = ({ isOpen, onC
     startDate: '',
     endDate: '',
     achievements: '',
-    supervisorName: 'CompassionCare Admin',
+    supervisorName: 'Prakriti Foundation Admin',
     certificateType: 'Volunteer Appreciation'
   });
   
@@ -129,7 +129,7 @@ const VolunteerCertificate: React.FC<VolunteerCertificateProps> = ({ isOpen, onC
       startDate: '',
       endDate: '',
       achievements: '',
-      supervisorName: 'CompassionCare Admin',
+      supervisorName: 'Prakriti Foundation Admin',
       certificateType: 'Volunteer Appreciation'
     });
     setCertificateGenerated(false);
