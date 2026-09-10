@@ -58,14 +58,14 @@ const MemberIDCard: React.FC<MemberIDCardProps> = ({ isOpen, onClose }) => {
       let nextNumber = 1;
       if (data && data.length > 0) {
         const lastMemberID = data[0].member_id;
-        const lastNumber = parseInt(lastMemberID.replace('CC-M-', ''));
+        const lastNumber = parseInt(lastMemberID.replace('PF-M-', ''));
         nextNumber = lastNumber + 1;
       }
 
-      return `CC-M-${nextNumber.toString().padStart(6, '0')}`;
+      return `PF-M-${nextNumber.toString().padStart(6, '0')}`;
     } catch (error) {
       console.error('Error generating member ID:', error);
-      return `CC-M-${Date.now().toString().slice(-6)}`;
+      return `PF-M-${Date.now().toString().slice(-6)}`;
     }
   };
 
@@ -146,10 +146,10 @@ const MemberIDCard: React.FC<MemberIDCardProps> = ({ isOpen, onClose }) => {
         backgroundColor: '#ffffff'
       });
 
-      const imgData = canvas.toDataURL('image/png');
+      const imgData = canvas.toDataURL('image/jpeg', 0.92);
       const pdf = new jsPDF('p', 'mm', [85.6, 53.98]); // Credit card size
       
-      pdf.addImage(imgData, 'PNG', 0, 0, 85.6, 53.98);
+      pdf.addImage(imgData, 'JPEG', 0, 0, 85.6, 53.98);
       pdf.save(`member-id-card-${formData.memberId}.pdf`);
     } catch (error) {
       console.error('Error generating PDF:', error);

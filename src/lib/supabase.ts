@@ -1,7 +1,13 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+// createClient throws synchronously on an empty/invalid URL, which would crash
+// the entire app before React even mounts. Until VITE_SUPABASE_URL is set
+// (see SUPABASE_SETUP.md), fall back to a syntactically valid placeholder so
+// the client can be constructed; the resulting network calls fail at fetch
+// time instead, where every caller already catches errors and falls back to
+// seed content.
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://placeholder.supabase.co';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'placeholder-anon-key';
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
@@ -435,6 +441,88 @@ export type Database = {
           phone?: string | null;
           order_index?: number;
           status?: 'active' | 'inactive';
+          created_at?: string;
+        };
+      };
+      adoptable_animals: {
+        Row: {
+          id: string;
+          name: string;
+          species: string;
+          age: string | null;
+          gender: string | null;
+          location: string | null;
+          description: string;
+          image_url: string;
+          vaccinated: boolean;
+          sterilized: boolean;
+          status: 'available' | 'pending' | 'adopted';
+          sort_order: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          species?: string;
+          age?: string | null;
+          gender?: string | null;
+          location?: string | null;
+          description: string;
+          image_url: string;
+          vaccinated?: boolean;
+          sterilized?: boolean;
+          status?: 'available' | 'pending' | 'adopted';
+          sort_order?: number;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          species?: string;
+          age?: string | null;
+          gender?: string | null;
+          location?: string | null;
+          description?: string;
+          image_url?: string;
+          vaccinated?: boolean;
+          sterilized?: boolean;
+          status?: 'available' | 'pending' | 'adopted';
+          sort_order?: number;
+          created_at?: string;
+        };
+      };
+      success_stories: {
+        Row: {
+          id: string;
+          name: string;
+          location: string | null;
+          story_date: string | null;
+          before_image_url: string | null;
+          after_image_url: string;
+          story: string;
+          sort_order: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          location?: string | null;
+          story_date?: string | null;
+          before_image_url?: string | null;
+          after_image_url: string;
+          story: string;
+          sort_order?: number;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          location?: string | null;
+          story_date?: string | null;
+          before_image_url?: string | null;
+          after_image_url?: string;
+          story?: string;
+          sort_order?: number;
           created_at?: string;
         };
       };

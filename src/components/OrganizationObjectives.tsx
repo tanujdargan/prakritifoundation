@@ -1,5 +1,5 @@
 import React from 'react';
-import { Target, Heart, Leaf, Users, Shield, Globe } from 'lucide-react';
+import { Target, Heart, Leaf, Users, Shield } from 'lucide-react';
 
 const OrganizationObjectives = () => {
   const objectives = [
@@ -52,18 +52,6 @@ const OrganizationObjectives = () => {
       color: "purple"
     },
     {
-      icon: Globe,
-      title: "Global Humanitarian Aid",
-      description: "Extend our compassionate mission to provide aid during natural disasters and emergencies.",
-      goals: [
-        "Rapid disaster response team",
-        "Emergency relief supplies",
-        "Rehabilitation programs",
-        "International partnerships"
-      ],
-      color: "red"
-    },
-    {
       icon: Target,
       title: "Sustainable Growth",
       description: "Build a sustainable organization that can expand its impact while maintaining quality services.",
@@ -101,12 +89,6 @@ const OrganizationObjectives = () => {
       border: "border-purple-200",
       icon: "text-purple-600",
       accent: "bg-purple-600"
-    },
-    red: {
-      bg: "bg-red-50",
-      border: "border-red-200",
-      icon: "text-red-600",
-      accent: "bg-red-600"
     },
     indigo: {
       bg: "bg-indigo-50",

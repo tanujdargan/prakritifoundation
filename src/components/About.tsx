@@ -1,5 +1,6 @@
 import React from 'react';
 import { Heart, Leaf, Users, Shield } from 'lucide-react';
+import { ORG } from '../lib/organization';
 
 const About = () => {
   return (
@@ -7,7 +8,7 @@ const About = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-6">
-            About CompassionCare
+            About {ORG.name}
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             We are a humanitarian organization dedicated to creating positive change in our world. 
@@ -20,7 +21,7 @@ const About = () => {
           <div>
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Our Mission</h3>
             <p className="text-gray-600 mb-6 leading-relaxed">
-              CompassionCare was founded with a simple belief: every living being deserves love, care, and dignity. 
+              {ORG.name} was founded with a simple belief: every living being deserves love, care, and dignity. 
               What started as a passion for rescuing and rehabilitating stray dogs has grown into a comprehensive 
               humanitarian mission.
             </p>

@@ -4,6 +4,8 @@ import { supabase } from '../lib/supabase';
 import QRCode from 'qrcode';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { ORG } from '../lib/organization';
+import { formatDateIN, todayLocalISO } from '../utils/date';
 
 interface AppointmentLetterProps {
   isOpen: boolean;
@@ -26,13 +28,13 @@ const AppointmentLetter: React.FC<AppointmentLetterProps> = ({ isOpen, onClose }
     memberName: '',
     memberId: '',
     position: '',
-    appointmentDate: new Date().toISOString().split('T')[0],
+    appointmentDate: todayLocalISO(),
     terms: '',
     issuedBy: 'Prakriti Foundation Admin',
     letterNo: '',
     qrCodeData: ''
   });
-  
+
   const [isGenerating, setIsGenerating] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [qrCodeUrl, setQrCodeUrl] = useState('');
@@ -64,14 +66,14 @@ const AppointmentLetter: React.FC<AppointmentLetterProps> = ({ isOpen, onClose }
       let nextNumber = 1;
       if (data && data.length > 0) {
         const lastLetterNo = data[0].letter_no;
-        const lastNumber = parseInt(lastLetterNo.replace('CC-AL-', ''));
+        const lastNumber = parseInt(lastLetterNo.replace('PF-AL-', ''));
         nextNumber = lastNumber + 1;
       }
 
-      return `CC-AL-${nextNumber.toString().padStart(6, '0')}`;
+      return `PF-AL-${nextNumber.toString().padStart(6, '0')}`;
     } catch (error) {
       console.error('Error generating letter number:', error);
-      return `CC-AL-${Date.now().toString().slice(-6)}`;
+      return `PF-AL-${Date.now().toString().slice(-6)}`;
     }
   };
 
@@ -104,7 +106,7 @@ const AppointmentLetter: React.FC<AppointmentLetterProps> = ({ isOpen, onClose }
         memberId: formData.memberId,
         position: formData.position,
         appointmentDate: formData.appointmentDate,
-        issueDate: new Date().toISOString()
+        issueDate: todayLocalISO()
       });
 
       const qrCodeDataURL = await generateQRCode(qrData);
@@ -152,7 +154,7 @@ const AppointmentLetter: React.FC<AppointmentLetterProps> = ({ isOpen, onClose }
         backgroundColor: '#ffffff'
       });
 
-      const imgData = canvas.toDataURL('image/png');
+      const imgData = canvas.toDataURL('image/jpeg', 0.92);
       const pdf = new jsPDF('p', 'mm', 'a4');
       
       const imgWidth = 210;
@@ -162,13 +164,13 @@ const AppointmentLetter: React.FC<AppointmentLetterProps> = ({ isOpen, onClose }
 
       let position = 0;
 
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
       heightLeft -= pageHeight;
 
       while (heightLeft >= 0) {
         position = heightLeft - imgHeight;
         pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
       }
 
@@ -184,7 +186,7 @@ const AppointmentLetter: React.FC<AppointmentLetterProps> = ({ isOpen, onClose }
       memberName: '',
       memberId: '',
       position: '',
-      appointmentDate: new Date().toISOString().split('T')[0],
+      appointmentDate: todayLocalISO(),
       terms: '',
       issuedBy: 'Prakriti Foundation Admin',
       letterNo: '',
@@ -239,7 +241,7 @@ const AppointmentLetter: React.FC<AppointmentLetterProps> = ({ isOpen, onClose }
                   value={formData.memberId}
                   onChange={(e) => setFormData(prev => ({ ...prev, memberId: e.target.value }))}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="CC-M-000001"
+                  placeholder="PF-M-000001"
                 />
               </div>
 
@@ -349,9 +351,10 @@ const AppointmentLetter: React.FC<AppointmentLetterProps> = ({ isOpen, onClose }
                   </div>
                 </div>
                 <div className="text-sm text-gray-600">
-                  <p>123 Compassion Street, Animal Welfare District</p>
-                  <p>Mumbai - 400001, Maharashtra, India</p>
-                  <p>Phone: +91 9876543210 | Email: info@Prakriti Foundation.org</p>
+                  <p>{ORG.address.line1}</p>
+                  <p>{ORG.address.line2}</p>
+                  <p>{ORG.address.line3}</p>
+                  <p>Phone: {ORG.phone} | Email: {ORG.email}</p>
                 </div>
               </div>
 
@@ -384,7 +387,7 @@ const AppointmentLetter: React.FC<AppointmentLetterProps> = ({ isOpen, onClose }
                 
                 <p className="text-gray-700 leading-relaxed">
                   We are pleased to inform you that you have been appointed as <strong>{formData.position}</strong> 
-                  at Prakriti Foundation, effective from <strong>{new Date(formData.appointmentDate).toLocaleDateString('en-IN')}</strong>.
+                  at Prakriti Foundation, effective from <strong>{formatDateIN(formData.appointmentDate)}</strong>.
                 </p>
 
                 <p className="text-gray-700 leading-relaxed">

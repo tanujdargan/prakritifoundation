@@ -1,5 +1,6 @@
 import React from 'react';
 import { Mail, Phone, MapPin, Facebook, Instagram, Twitter } from 'lucide-react';
+import { ORG } from '../lib/organization';
 
 const Contact = () => {
   return (
@@ -28,8 +29,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="text-lg font-semibold text-gray-900 mb-1">Email</h4>
-                  <p className="text-gray-600">info@Prakriti Foundation.org</p>
-                  <p className="text-sm text-gray-500 mt-1">We'll respond within 24 hours</p>
+                  <p className="text-gray-600">{ORG.email}</p>
                 </div>
               </div>
 
@@ -38,9 +38,8 @@ const Contact = () => {
                   <Phone className="h-6 w-6 text-green-600" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold text-gray-900 mb-1">Emergency Rescue</h4>
-                  <p className="text-gray-600">+91 9876543210</p>
-                  <p className="text-sm text-gray-500 mt-1">24/7 emergency response</p>
+                  <h4 className="text-lg font-semibold text-gray-900 mb-1">Phone</h4>
+                  <p className="text-gray-600">{ORG.phone}</p>
                 </div>
               </div>
 
@@ -51,9 +50,9 @@ const Contact = () => {
                 <div>
                   <h4 className="text-lg font-semibold text-gray-900 mb-1">Shelter Location</h4>
                   <p className="text-gray-600">
-                    123 Compassion Street,<br />
-                    Animal Welfare District,<br />
-                    Mumbai - 400001
+                    {ORG.address.line1}<br />
+                    {ORG.address.line2}<br />
+                    {ORG.address.line3}
                   </p>
                 </div>
               </div>

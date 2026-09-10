@@ -1,13 +1,18 @@
-import React, { useState, useRef } from 'react';
-import { Award, Download, User, Calendar, Clock, FileText, X, CreditCard, Users, Receipt, Settings } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Award, Download, User, Calendar, Clock, FileText, X, CreditCard, Users, Receipt, PawPrint, LogOut } from 'lucide-react';
 import { Heart, Home } from 'lucide-react';
+import type { Session } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
+import { ORG } from '../lib/organization';
+import { formatDateIN } from '../utils/date';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import MemberIDCard from './MemberIDCard';
 import AppointmentLetter from './AppointmentLetter';
 import MemberManagement from './MemberManagement';
 import DonationReceipt from './DonationReceipt';
+import ContentManager from './ContentManager';
+import AdminLogin from './AdminLogin';
 
 interface CertificateData {
   volunteerName: string;
@@ -24,10 +29,11 @@ interface CertificateData {
 }
 
 const AdminDashboard = () => {
+  const [session, setSession] = useState<Session | null>(null);
+  const [checkingSession, setCheckingSession] = useState(true);
   const [showCertificateForm, setShowCertificateForm] = useState(false);
   const [showMemberIDForm, setShowMemberIDForm] = useState(false);
   const [showAppointmentForm, setShowAppointmentForm] = useState(false);
-  const [showMemberManagement, setShowMemberManagement] = useState(false);
   const [showDonationReceipt, setShowDonationReceipt] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [formData, setFormData] = useState<CertificateData>({
@@ -47,6 +53,25 @@ const AdminDashboard = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const certificateRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session);
+      setCheckingSession(false);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      setSession(newSession);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+  };
 
   const volunteerTypes = [
     'Animal Care',
@@ -139,13 +164,13 @@ const AdminDashboard = () => {
         backgroundColor: '#ffffff'
       });
 
-      const imgData = canvas.toDataURL('image/png');
+      const imgData = canvas.toDataURL('image/jpeg', 0.92);
       const pdf = new jsPDF('l', 'mm', 'a4'); // Landscape orientation for certificate
       
       const imgWidth = 297; // A4 landscape width
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
       pdf.save(`volunteer-certificate-${formData.certificateNo}.pdf`);
     } catch (error) {
       console.error('Error generating PDF:', error);
@@ -171,26 +196,51 @@ const AdminDashboard = () => {
     setShowCertificateForm(false);
   };
 
+  if (checkingSession) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <p className="text-gray-500">Loading...</p>
+      </div>
+    );
+  }
+
+  if (!session) {
+    return <AdminLogin />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header with Logo */}
-        <div className="mb-8">
-          <a 
-            href="/" 
+        <div className="mb-8 flex items-center justify-between">
+          <a
+            href="/"
             className="inline-flex items-center space-x-3 text-blue-600 hover:text-blue-700 transition-colors group"
           >
             <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-200 transition-colors">
               <Heart className="h-6 w-6 text-blue-600" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">Prakriti Foundation</h1>
+              <h1 className="text-2xl font-bold">{ORG.name}</h1>
               <p className="text-sm text-gray-500 flex items-center">
                 <Home className="h-3 w-3 mr-1" />
                 Back to Website
               </p>
             </div>
           </a>
+
+          <div className="flex items-center space-x-4">
+            {session.user.email && (
+              <span className="text-sm text-gray-500">{session.user.email}</span>
+            )}
+            <button
+              onClick={handleSignOut}
+              className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors text-sm font-medium"
+            >
+              <LogOut className="h-4 w-4 mr-2" />
+              Sign Out
+            </button>
+          </div>
         </div>
 
         <div className="bg-white rounded-lg shadow-lg">
@@ -216,6 +266,16 @@ const AdminDashboard = () => {
                 }`}
               >
                 Member Management
+              </button>
+              <button
+                onClick={() => setActiveTab('content')}
+                className={`pb-4 px-1 border-b-2 font-medium text-sm ${
+                  activeTab === 'content'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Content
               </button>
             </nav>
           </div>
@@ -285,11 +345,24 @@ const AdminDashboard = () => {
                       Manage Members
                     </button>
                   </div>
+
+                  <div className="bg-teal-50 p-6 rounded-lg border border-teal-200">
+                    <PawPrint className="h-12 w-12 text-teal-600 mb-4" />
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Content Manager</h3>
+                    <p className="text-gray-600 mb-4">Manage adoptable animals and success stories</p>
+                    <button
+                      onClick={() => setActiveTab('content')}
+                      className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg transition-colors"
+                    >
+                      Manage Content
+                    </button>
+                  </div>
                 </div>
               </>
             )}
 
             {activeTab === 'members' && <MemberManagement />}
+            {activeTab === 'content' && <ContentManager />}
           </div>
         </div>
 
@@ -519,7 +592,7 @@ const AdminDashboard = () => {
                             <Award className="h-12 w-12 text-blue-600" />
                           </div>
                           <div>
-                            <h1 className="text-4xl font-bold text-blue-600 mb-2">Prakriti Foundation</h1>
+                            <h1 className="text-4xl font-bold text-blue-600 mb-2">{ORG.name}</h1>
                             <p className="text-lg text-gray-600">Humanitarian NGO</p>
                           </div>
                         </div>
@@ -544,8 +617,8 @@ const AdminDashboard = () => {
                         <p className="text-lg text-gray-700 leading-relaxed mb-4">
                           has successfully completed <strong>{formData.hoursContributed} hours</strong> of volunteer service 
                           in <strong>{formData.volunteerType}</strong> from{' '}
-                          <strong>{new Date(formData.startDate).toLocaleDateString('en-IN')}</strong> to{' '}
-                          <strong>{new Date(formData.endDate).toLocaleDateString('en-IN')}</strong>.
+                          <strong>{formatDateIN(formData.startDate)}</strong> to{' '}
+                          <strong>{formatDateIN(formData.endDate)}</strong>.
                         </p>
                         
                         {formData.achievements && (
@@ -582,7 +655,7 @@ const AdminDashboard = () => {
                       {/* Organization Details */}
                       <div className="text-center mt-8 pt-4 border-t border-gray-300">
                         <p className="text-xs text-gray-500">
-                          Prakriti Foundation | 123 Compassion Street, Mumbai - 400001 | +91 9876543210 | info@Prakriti Foundation.org
+                          {ORG.name} | {ORG.addressOneLine} | {ORG.phone} | {ORG.email}
                         </p>
                       </div>
                     </div>

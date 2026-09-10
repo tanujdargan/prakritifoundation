@@ -1,18 +1,12 @@
 import React from 'react';
-import { Stethoscope, Home, Heart, Truck } from 'lucide-react';
+import { Stethoscope, Home, Heart } from 'lucide-react';
 
 const Services = () => {
   const services = [
     {
-      icon: Truck,
-      title: "Emergency Rescue",
-      description: "24/7 emergency response team for animals in distress, providing immediate care and safety.",
-      image: "https://images.pexels.com/photos/1076758/pexels-photo-1076758.jpeg?auto=compress&cs=tinysrgb&w=400"
-    },
-    {
       icon: Stethoscope,
-      title: "Medical Treatment",
-      description: "Comprehensive veterinary care including surgeries, vaccinations, and rehabilitation.",
+      title: "Assistance",
+      description: "Veterinary care, vaccinations, feeding, and day-to-day support for animals in need.",
       image: "https://images.pexels.com/photos/6235232/pexels-photo-6235232.jpeg?auto=compress&cs=tinysrgb&w=400"
     },
     {
@@ -23,8 +17,8 @@ const Services = () => {
     },
     {
       icon: Heart,
-      title: "Rehabilitation",
-      description: "Long-term care and behavioral therapy to help traumatized animals heal and trust again.",
+      title: "Cow Rescue Program/s",
+      description: "",
       image: "https://images.pexels.com/photos/1805164/pexels-photo-1805164.jpeg?auto=compress&cs=tinysrgb&w=400"
     }
   ];
@@ -37,12 +31,11 @@ const Services = () => {
             Our Services
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            From emergency rescue to finding forever homes, we provide comprehensive care 
-            for animals throughout their journey to safety and happiness.
+            We care for animals at every stage — from treatment and daily assistance to finding them a permanent home.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
             <div 
               key={index}
@@ -61,12 +54,14 @@ const Services = () => {
               </div>
               
               <div className="p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                <h3 className={`text-xl font-semibold text-gray-900 ${service.description ? 'mb-3' : ''}`}>
                   {service.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  {service.description}
-                </p>
+                {service.description && (
+                  <p className="text-gray-600 leading-relaxed">
+                    {service.description}
+                  </p>
+                )}
               </div>
             </div>
           ))}

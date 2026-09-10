@@ -1,7 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { Download, Receipt, X } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { ORG } from '../lib/organization';
 import { numberToWords } from '../utils/numberToWords';
+import { formatDateIN, todayLocalISO } from '../utils/date';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -15,26 +17,30 @@ interface ReceiptData {
   date: string;
   paymentMethod: string;
   donatorName: string;
+  donorAddress: string;
   amount: number;
   amountInWords: string;
   panNumber: string;
   aadharNumber: string;
+  transactionId: string;
   receivedBy: string;
 }
 
 const DonationReceipt: React.FC<DonationReceiptProps> = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState<ReceiptData>({
     receiptNo: '',
-    date: new Date().toISOString().split('T')[0],
+    date: todayLocalISO(),
     paymentMethod: 'UPI',
     donatorName: '',
+    donorAddress: '',
     amount: 0,
     amountInWords: '',
     panNumber: '',
     aadharNumber: '',
+    transactionId: '',
     receivedBy: 'Prakriti Foundation Admin'
   });
-  
+
   const [isGenerating, setIsGenerating] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const receiptRef = useRef<HTMLDivElement>(null);
@@ -52,14 +58,14 @@ const DonationReceipt: React.FC<DonationReceiptProps> = ({ isOpen, onClose }) =>
       let nextNumber = 1;
       if (data && data.length > 0) {
         const lastReceiptNo = data[0].receipt_no;
-        const lastNumber = parseInt(lastReceiptNo.replace('CC-', ''));
+        const lastNumber = parseInt(lastReceiptNo.replace('PF-', ''));
         nextNumber = lastNumber + 1;
       }
 
-      return `CC-${nextNumber.toString().padStart(6, '0')}`;
+      return `PF-${nextNumber.toString().padStart(6, '0')}`;
     } catch (error) {
       console.error('Error generating receipt number:', error);
-      return `CC-${Date.now().toString().slice(-6)}`;
+      return `PF-${Date.now().toString().slice(-6)}`;
     }
   };
 
@@ -80,7 +86,8 @@ const DonationReceipt: React.FC<DonationReceiptProps> = ({ isOpen, onClose }) =>
       const updatedFormData = { ...formData, receiptNo };
       setFormData(updatedFormData);
 
-      // Save to database
+      // ponytail: donorAddress/transactionId are display-only until a migration adds
+      // matching columns to donation_receipts; do not insert them yet.
       const { error } = await supabase
         .from('donation_receipts')
         .insert({
@@ -111,14 +118,14 @@ const DonationReceipt: React.FC<DonationReceiptProps> = ({ isOpen, onClose }) =>
 
     try {
       const canvas = await html2canvas(receiptRef.current, {
-        scale: 2,
+        scale: 1.5,
         useCORS: true,
         backgroundColor: '#ffffff'
       });
 
-      const imgData = canvas.toDataURL('image/png');
+      const imgData = canvas.toDataURL('image/jpeg', 0.92);
       const pdf = new jsPDF('p', 'mm', 'a4');
-      
+
       const imgWidth = 210;
       const pageHeight = 295;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
@@ -126,13 +133,13 @@ const DonationReceipt: React.FC<DonationReceiptProps> = ({ isOpen, onClose }) =>
 
       let position = 0;
 
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
       heightLeft -= pageHeight;
 
-      while (heightLeft >= 0) {
+      while (heightLeft > 0) {
         position = heightLeft - imgHeight;
         pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
       }
 
@@ -175,6 +182,20 @@ const DonationReceipt: React.FC<DonationReceiptProps> = ({ isOpen, onClose }) =>
                   onChange={(e) => setFormData(prev => ({ ...prev, donatorName: e.target.value }))}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Enter donator's full name"
+                />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Donor's Address *
+                </label>
+                <textarea
+                  required
+                  rows={3}
+                  value={formData.donorAddress}
+                  onChange={(e) => setFormData(prev => ({ ...prev, donorAddress: e.target.value }))}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Enter donor's full address"
                 />
               </div>
 
@@ -227,10 +248,24 @@ const DonationReceipt: React.FC<DonationReceiptProps> = ({ isOpen, onClose }) =>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  PAN Number
+                  Transaction / Cheque / UTR Number
                 </label>
                 <input
                   type="text"
+                  value={formData.transactionId}
+                  onChange={(e) => setFormData(prev => ({ ...prev, transactionId: e.target.value }))}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Enter transaction / cheque / UTR number"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  PAN Number *
+                </label>
+                <input
+                  type="text"
+                  required
                   value={formData.panNumber}
                   onChange={(e) => setFormData(prev => ({ ...prev, panNumber: e.target.value.toUpperCase() }))}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -314,96 +349,171 @@ const DonationReceipt: React.FC<DonationReceiptProps> = ({ isOpen, onClose }) =>
               </button>
             </div>
 
-            <div ref={receiptRef} className="bg-white p-8 border border-gray-300">
-              {/* Receipt Header */}
-              <div className="text-center mb-8 border-b-2 border-blue-600 pb-6">
-                <div className="flex items-center justify-center mb-4">
-                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                    <Receipt className="h-8 w-8 text-blue-600" />
-                  </div>
-                  <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Prakriti Foundation</h1>
-                    <p className="text-sm text-gray-600">Humanitarian NGO</p>
-                  </div>
-                </div>
-                <div className="text-sm text-gray-600">
-                  <p>123 Compassion Street, Animal Welfare District</p>
-                  <p>Mumbai - 400001, Maharashtra, India</p>
-                  <p>Phone: +91 9876543210 | Email: info@Prakriti Foundation.org</p>
-                </div>
-              </div>
-
-              {/* Receipt Title */}
-              <div className="text-center mb-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-2">DONATION RECEIPT</h2>
-                <p className="text-sm text-gray-600">Receipt No: {formData.receiptNo}</p>
-              </div>
-
-              {/* Receipt Details */}
-              <div className="grid grid-cols-2 gap-6 mb-8">
-                <div>
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700">Date:</label>
-                    <p className="text-gray-900">{new Date(formData.date).toLocaleDateString('en-IN')}</p>
-                  </div>
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700">Donator's Name:</label>
-                    <p className="text-gray-900 font-medium">{formData.donatorName}</p>
-                  </div>
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700">Payment Method:</label>
-                    <p className="text-gray-900">{formData.paymentMethod}</p>
-                  </div>
-                </div>
-                <div>
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700">Amount:</label>
-                    <p className="text-2xl font-bold text-green-600">₹{formData.amount.toLocaleString('en-IN')}</p>
-                  </div>
-                  {formData.panNumber && (
-                    <div className="mb-4">
-                      <label className="block text-sm font-medium text-gray-700">PAN Number:</label>
-                      <p className="text-gray-900">{formData.panNumber}</p>
+            <div className="overflow-x-auto">
+              <div
+                ref={receiptRef}
+                className="bg-white border border-gray-300 mx-auto"
+                style={{ width: '800px', padding: '32px' }}
+              >
+                {/* Header */}
+                <div className="flex items-start justify-between border-b-4 border-green-700 pb-4 mb-4">
+                  <div className="flex items-center">
+                    <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                      <Receipt className="h-7 w-7 text-green-700" />
                     </div>
-                  )}
-                  {formData.aadharNumber && (
-                    <div className="mb-4">
-                      <label className="block text-sm font-medium text-gray-700">Aadhar Number:</label>
-                      <p className="text-gray-900">{formData.aadharNumber}</p>
+                    <div>
+                      <h1 className="text-2xl font-bold text-green-800 tracking-wide leading-tight">PRAKRITI FOUNDATION</h1>
+                      <p className="text-xs text-green-700 italic">For a kinder world</p>
                     </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Amount in Words */}
-              <div className="mb-8 p-4 bg-gray-50 rounded-lg">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Amount in Words:</label>
-                <p className="text-gray-900 font-medium">{formData.amountInWords}</p>
-              </div>
-
-              {/* Footer */}
-              <div className="flex justify-between items-end pt-8 border-t border-gray-300">
-                <div>
-                  <p className="text-sm text-gray-600 mb-2">Received by:</p>
-                  <p className="text-gray-900 font-medium">{formData.receivedBy}</p>
-                  <div className="mt-8 border-t border-gray-400 w-32">
-                    <p className="text-xs text-gray-500 mt-1">Signature</p>
+                  </div>
+                  <div className="text-right text-xs text-gray-700 leading-relaxed">
+                    <p>{ORG.address.line1}</p>
+                    <p>{ORG.address.line2}</p>
+                    <p>{ORG.address.line3}</p>
+                    <p>Phone: {ORG.phone}</p>
+                    <p>Email: {ORG.email}</p>
+                    <p>Website: {ORG.website}</p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <div className="w-24 h-16 bg-gray-100 border border-gray-300 rounded flex items-center justify-center mb-2">
-                    <p className="text-xs text-gray-500">Official Seal</p>
-                  </div>
-                  <p className="text-xs text-gray-500">Prakriti Foundation</p>
-                </div>
-              </div>
 
-              {/* Thank You Note */}
-              <div className="mt-8 text-center p-4 bg-blue-50 rounded-lg">
-                <p className="text-sm text-blue-800">
-                  Thank you for your generous donation! Your contribution helps us continue our mission 
-                  of rescuing and caring for animals in need.
-                </p>
+                {/* Title band */}
+                <div className="bg-green-700 text-white text-center py-2 mb-4">
+                  <h2 className="text-lg font-bold tracking-widest">DONATION RECEIPT</h2>
+                </div>
+
+                {/* Receipt No. and Date */}
+                <div className="flex justify-between text-sm mb-4">
+                  <p><span className="font-semibold text-gray-700">Receipt No.:</span> <span className="text-gray-900">{formData.receiptNo}</span></p>
+                  <p><span className="font-semibold text-gray-700">Date:</span> <span className="text-gray-900">{formatDateIN(formData.date)}</span></p>
+                </div>
+
+                {/* Received with thanks from */}
+                <div className="mb-4">
+                  <p className="text-sm font-semibold text-green-800 border-b border-green-200 pb-1 mb-2">Received with thanks from</p>
+                  <table className="w-full text-sm">
+                    <tbody>
+                      <tr>
+                        <td className="py-1 pr-2 font-medium text-gray-700 w-1/3 align-top">Name of Donor</td>
+                        <td className="py-1 text-gray-900">{formData.donatorName}</td>
+                      </tr>
+                      <tr>
+                        <td className="py-1 pr-2 font-medium text-gray-700 align-top">Address</td>
+                        <td className="py-1 text-gray-900 whitespace-pre-line">{formData.donorAddress}</td>
+                      </tr>
+                      <tr>
+                        <td className="py-1 pr-2 font-medium text-gray-700 align-top">PAN</td>
+                        <td className="py-1 text-gray-900">{formData.panNumber}</td>
+                      </tr>
+                      {formData.aadharNumber && (
+                        <tr>
+                          <td className="py-1 pr-2 font-medium text-gray-700 align-top">Aadhaar No.</td>
+                          <td className="py-1 text-gray-900">{formData.aadharNumber}</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Donation details */}
+                <div className="mb-4">
+                  <p className="text-sm font-semibold text-green-800 border-b border-green-200 pb-1 mb-2">Donation Details</p>
+                  <table className="w-full text-sm">
+                    <tbody>
+                      <tr>
+                        <td className="py-1 pr-2 font-medium text-gray-700 w-1/3 align-top">Amount Received (₹, in figures)</td>
+                        <td className="py-1 text-gray-900 font-bold">₹{formData.amount.toLocaleString('en-IN')}/-</td>
+                      </tr>
+                      <tr>
+                        <td className="py-1 pr-2 font-medium text-gray-700 align-top">Amount in Words</td>
+                        <td className="py-1 text-gray-900">{formData.amountInWords}</td>
+                      </tr>
+                      <tr>
+                        <td className="py-1 pr-2 font-medium text-gray-700 align-top">Mode of Payment</td>
+                        <td className="py-1 text-gray-900">{formData.paymentMethod}</td>
+                      </tr>
+                      {formData.transactionId && (
+                        <tr>
+                          <td className="py-1 pr-2 font-medium text-gray-700 align-top">Transaction / Cheque / UTR No.</td>
+                          <td className="py-1 text-gray-900">{formData.transactionId}</td>
+                        </tr>
+                      )}
+                      <tr>
+                        <td className="py-1 pr-2 font-medium text-gray-700 align-top">Date of Transaction</td>
+                        <td className="py-1 text-gray-900">{formatDateIN(formData.date)}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Purpose of donation */}
+                <div className="mb-4">
+                  <p className="text-sm font-semibold text-green-800 border-b border-green-200 pb-1 mb-2">Purpose of Donation</p>
+                  <p className="text-sm text-gray-900">For the charitable and animal welfare activities of PRAKRITI FOUNDATION.</p>
+                </div>
+
+                {/* 80G Tax Exemption Details */}
+                <div className="mb-4">
+                  <p className="text-sm font-semibold text-green-800 mb-2">80G Tax Exemption Details</p>
+                  <p className="text-xs text-gray-700 mb-2">
+                    This donation is eligible for deduction under Section 80G of the Income Tax Act, 1961, subject to the
+                    applicable provisions of the Income Tax Act and fulfilment of the conditions prescribed thereunder.
+                  </p>
+                  <table className="w-full text-sm border border-gray-400">
+                    <tbody>
+                      <tr className="border-b border-gray-400">
+                        <td className="py-2 px-3 font-medium text-gray-700 border-r border-gray-400 w-1/2">Name of Institution</td>
+                        <td className="py-2 px-3 text-gray-900">PRAKRITI FOUNDATION</td>
+                      </tr>
+                      <tr className="border-b border-gray-400">
+                        <td className="py-2 px-3 font-medium text-gray-700 border-r border-gray-400">PAN</td>
+                        <td className="py-2 px-3 text-gray-900">{ORG.pan}</td>
+                      </tr>
+                      <tr className="border-b border-gray-400">
+                        <td className="py-2 px-3 font-medium text-gray-700 border-r border-gray-400">80G Unique Registration Number (URN)</td>
+                        <td className="py-2 px-3 text-gray-900">{ORG.urn80G}</td>
+                      </tr>
+                      <tr className="border-b border-gray-400">
+                        <td className="py-2 px-3 font-medium text-gray-700 border-r border-gray-400">Nature of Approval</td>
+                        <td className="py-2 px-3 text-gray-900">Provisional approval under Section 80G</td>
+                      </tr>
+                      <tr>
+                        <td className="py-2 px-3 font-medium text-gray-700 border-r border-gray-400">Validity</td>
+                        <td className="py-2 px-3 text-gray-900">Assessment Year 2026–27 to Assessment Year 2028–29</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Thank you note */}
+                <div className="mb-6">
+                  <p className="text-sm text-gray-900">
+                    We sincerely thank you for your generous contribution towards our charitable activities and animal
+                    welfare initiatives.
+                  </p>
+                </div>
+
+                {/* Footer */}
+                <div className="flex justify-between items-end pt-6 border-t border-gray-400 mb-4">
+                  <div className="text-sm">
+                    <p className="font-semibold text-gray-900 mb-8">For PRAKRITI FOUNDATION</p>
+                    <div className="border-t border-gray-500 w-56 pt-1">
+                      <p className="text-xs text-gray-700">Authorized Signatory</p>
+                      <p className="text-xs text-gray-700 mt-1">Name: ____________________</p>
+                      <p className="text-xs text-gray-700 mt-1">Designation: ____________________</p>
+                    </div>
+                  </div>
+                  <div className="text-center flex-shrink-0">
+                    <div className="w-28 h-20 border border-gray-400 flex items-center justify-center mb-1">
+                      <p className="text-xs text-gray-500">Official Seal</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Notes */}
+                <div className="text-[10px] text-gray-600 leading-relaxed border-t border-gray-300 pt-2">
+                  <p>Note: Please retain this receipt for your records. Tax deduction, if any, is subject to the applicable provisions of the Income Tax Act, 1961.</p>
+                  <p>Donations made in cash exceeding ₹2,000 are not eligible for deduction under Section 80G.</p>
+                </div>
               </div>
             </div>
           </div>

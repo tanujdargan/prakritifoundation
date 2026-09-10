@@ -5,8 +5,8 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Services from './components/Services';
 import OrganizationObjectives from './components/OrganizationObjectives';
-import OrganizationAwards from './components/OrganizationAwards';
 import SuccessStories from './components/SuccessStories';
+import UpForAdoption from './components/UpForAdoption';
 import HowToHelp from './components/HowToHelp';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
@@ -25,8 +25,8 @@ function App() {
               <About />
               <Services />
               <OrganizationObjectives />
-              <OrganizationAwards />
               <SuccessStories />
+              <UpForAdoption />
               <HowToHelp />
               <Contact />
             </>

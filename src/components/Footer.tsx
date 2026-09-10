@@ -1,5 +1,6 @@
 import React from 'react';
-import { Heart, Mail, Phone, MapPin } from 'lucide-react';
+import { Heart, Mail, Phone } from 'lucide-react';
+import { ORG } from '../lib/organization';
 
 const Footer = () => {
   const scrollToSection = (sectionId: string) => {
@@ -9,7 +10,7 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div>
             <div className="flex items-center space-x-2 mb-6">
               <Heart className="h-8 w-8 text-blue-400" />
@@ -39,24 +40,24 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Links</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">Quick Links</h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-3">
                 <button 
                   onClick={() => scrollToSection('about')}
-                  className="block text-gray-600 hover:text-blue-600 transition-colors"
+                  className="block text-gray-300 hover:text-blue-400 transition-colors"
                 >
                   About Us
                 </button>
                 <button 
                   onClick={() => scrollToSection('services')}
-                  className="block text-gray-600 hover:text-blue-600 transition-colors"
+                  className="block text-gray-300 hover:text-blue-400 transition-colors"
                 >
                   Our Services
                 </button>
                 <button 
                   onClick={() => scrollToSection('stories')}
-                  className="block text-gray-600 hover:text-blue-600 transition-colors"
+                  className="block text-gray-300 hover:text-blue-400 transition-colors"
                 >
                   Success Stories
                 </button>
@@ -64,14 +65,14 @@ const Footer = () => {
               <div className="space-y-3">
                 <button 
                   onClick={() => scrollToSection('help')}
-                  className="block text-gray-600 hover:text-blue-600 transition-colors"
+                  className="block text-gray-300 hover:text-blue-400 transition-colors"
                 >
                   How to Help
                 </button>
-                <a href="#" className="block text-gray-600 hover:text-blue-600 transition-colors">
+                <a href="#" className="block text-gray-300 hover:text-blue-400 transition-colors">
                   Adoption
                 </a>
-                <a href="#" className="block text-gray-600 hover:text-blue-600 transition-colors">
+                <a href="#" className="block text-gray-300 hover:text-blue-400 transition-colors">
                   Volunteer
                 </a>
               </div>
@@ -79,37 +80,19 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Emergency Contact</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">Contact</h3>
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
                 <Phone className="h-5 w-5 text-red-500" />
-                <span className="text-gray-600">+91 9876543210</span>
+                <span className="text-gray-300">{ORG.phone}</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="h-5 w-5 text-blue-500" />
-                <span className="text-gray-600">emergency@Prakriti Foundation.org</span>
+                <span className="text-gray-300">{ORG.email}</span>
               </div>
-              <p className="text-sm text-gray-500 italic">
+              <p className="text-sm text-gray-400 italic">
                 If you find an injured or distressed animal, please contact us immediately.
               </p>
-            </div>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Our Impact</h3>
-            <div className="space-y-4">
-              <div className="flex justify-between items-center py-2 border-b border-gray-200">
-                <span className="text-gray-600">Animals Rescued</span>
-                <span className="font-semibold text-blue-600">500+</span>
-              </div>
-              <div className="flex justify-between items-center py-2 border-b border-gray-200">
-                <span className="text-gray-600">Successful Adoptions</span>
-                <span className="font-semibold text-green-600">300+</span>
-              </div>
-              <div className="flex justify-between items-center py-2">
-                <span className="text-gray-600">Active Volunteers</span>
-                <span className="font-semibold text-orange-600">150+</span>
-              </div>
             </div>
           </div>
         </div>

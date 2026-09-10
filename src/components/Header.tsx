@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Heart } from 'lucide-react';
 
+const NAV_ITEMS = ['home', 'about', 'services', 'stories', 'adoption', 'help', 'contact'];
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -37,7 +39,7 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
-            {['home', 'about', 'services', 'stories', 'help', 'contact'].map((item) => (
+            {NAV_ITEMS.map((item) => (
               <button
                 key={item}
                 onClick={() => scrollToSection(item)}
@@ -66,7 +68,7 @@ const Header = () => {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden bg-white border-t border-gray-200 py-4">
-            {['home', 'about', 'services', 'stories', 'help', 'contact'].map((item) => (
+            {NAV_ITEMS.map((item) => (
               <button
                 key={item}
                 onClick={() => scrollToSection(item)}
