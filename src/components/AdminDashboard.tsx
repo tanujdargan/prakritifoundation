@@ -198,8 +198,14 @@ const AdminDashboard = () => {
 
   if (checkingSession) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p className="text-gray-500">Loading...</p>
+      <div className="min-h-screen bg-pf-cream flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <span
+            className="h-8 w-8 rounded-full border-2 border-pf-border border-t-pf-forest animate-spin"
+            aria-hidden="true"
+          />
+          <p className="text-sm text-pf-muted">Loading...</p>
+        </div>
       </div>
     );
   }
@@ -209,70 +215,71 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-pf-cream py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header with Logo */}
-        <div className="mb-8 flex items-center justify-between">
+        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
           <a
             href="/"
-            className="inline-flex items-center space-x-3 text-blue-600 hover:text-blue-700 transition-colors group"
+            className="inline-flex items-center gap-3 text-pf-forest transition-colors hover:text-pf-moss cursor-pointer"
           >
-            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-200 transition-colors">
-              <Heart className="h-6 w-6 text-blue-600" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold">{ORG.name}</h1>
-              <p className="text-sm text-gray-500 flex items-center">
-                <Home className="h-3 w-3 mr-1" />
+            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-pf-sage">
+              <Heart className="h-6 w-6 text-pf-forest" aria-hidden="true" />
+            </span>
+            <span>
+              <span className="block font-display text-2xl font-semibold leading-tight">{ORG.name}</span>
+              <span className="flex items-center gap-1 text-sm text-pf-muted">
+                <Home className="h-3 w-3" aria-hidden="true" />
                 Back to Website
-              </p>
-            </div>
+              </span>
+            </span>
           </a>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center gap-4">
             {session.user.email && (
-              <span className="text-sm text-gray-500">{session.user.email}</span>
+              <span className="text-sm text-pf-muted">{session.user.email}</span>
             )}
+            <span className="hidden h-6 w-px bg-pf-border sm:block" aria-hidden="true" />
             <button
               onClick={handleSignOut}
-              className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors text-sm font-medium"
+              className="inline-flex h-11 cursor-pointer items-center gap-2 rounded-md border border-pf-border px-4 text-sm font-medium text-pf-muted transition-colors hover:border-pf-moss hover:text-pf-forest"
             >
-              <LogOut className="h-4 w-4 mr-2" />
+              <LogOut className="h-4 w-4" aria-hidden="true" />
               Sign Out
             </button>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg">
+        <div className="rounded-lg border border-pf-border bg-white">
           {/* Navigation Tabs */}
-          <div className="border-b border-gray-200">
-            <nav className="flex space-x-8 px-8 pt-6">
+          <div className="border-b border-pf-border">
+            <nav className="flex gap-8 px-8 pt-6" aria-label="Admin sections">
               <button
                 onClick={() => setActiveTab('dashboard')}
-                className={`pb-4 px-1 border-b-2 font-medium text-sm ${
+                className={`cursor-pointer border-b-2 pb-4 text-sm transition-colors ${
                   activeTab === 'dashboard'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                    ? 'border-pf-forest font-semibold text-pf-forest'
+                    : 'border-transparent font-medium text-pf-muted hover:text-pf-forest'
                 }`}
               >
                 Dashboard
               </button>
               <button
                 onClick={() => setActiveTab('members')}
-                className={`pb-4 px-1 border-b-2 font-medium text-sm ${
+                className={`cursor-pointer border-b-2 pb-4 text-sm transition-colors ${
                   activeTab === 'members'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                    ? 'border-pf-forest font-semibold text-pf-forest'
+                    : 'border-transparent font-medium text-pf-muted hover:text-pf-forest'
                 }`}
               >
                 Member Management
               </button>
               <button
                 onClick={() => setActiveTab('content')}
-                className={`pb-4 px-1 border-b-2 font-medium text-sm ${
+                className={`cursor-pointer border-b-2 pb-4 text-sm transition-colors ${
                   activeTab === 'content'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                    ? 'border-pf-forest font-semibold text-pf-forest'
+                    : 'border-transparent font-medium text-pf-muted hover:text-pf-forest'
                 }`}
               >
                 Content
@@ -283,76 +290,76 @@ const AdminDashboard = () => {
           <div className="p-8">
             {activeTab === 'dashboard' && (
               <>
-                <h2 className="text-3xl font-bold text-gray-900 mb-8">Admin Dashboard</h2>
-          
+                <h2 className="text-3xl font-semibold text-pf-forest mb-8">Admin Dashboard</h2>
+
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                  <div className="bg-blue-50 p-6 rounded-lg border border-blue-200">
-                    <Award className="h-12 w-12 text-blue-600 mb-4" />
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Certificate Generator</h3>
-                    <p className="text-gray-600 mb-4">Generate and download volunteer certificates</p>
+                  <div className="rounded-lg border border-pf-border bg-white p-6 transition-colors hover:border-pf-moss">
+                    <Award className="h-10 w-10 text-pf-moss mb-4" aria-hidden="true" />
+                    <h3 className="text-lg font-semibold text-pf-ink mb-2">Certificate Generator</h3>
+                    <p className="text-sm text-pf-muted mb-4">Generate and download volunteer certificates</p>
                     <button
                       onClick={() => setShowCertificateForm(true)}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+                      className="inline-flex h-11 cursor-pointer items-center rounded-md bg-pf-forest px-4 text-sm font-medium text-white transition-colors hover:bg-pf-moss"
                     >
                       Generate Certificate
                     </button>
                   </div>
 
-                  <div className="bg-green-50 p-6 rounded-lg border border-green-200">
-                    <CreditCard className="h-12 w-12 text-green-600 mb-4" />
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Member ID Cards</h3>
-                    <p className="text-gray-600 mb-4">Issue member ID cards with QR codes</p>
+                  <div className="rounded-lg border border-pf-border bg-white p-6 transition-colors hover:border-pf-moss">
+                    <CreditCard className="h-10 w-10 text-pf-moss mb-4" aria-hidden="true" />
+                    <h3 className="text-lg font-semibold text-pf-ink mb-2">Member ID Cards</h3>
+                    <p className="text-sm text-pf-muted mb-4">Issue member ID cards with QR codes</p>
                     <button
                       onClick={() => setShowMemberIDForm(true)}
-                      className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
+                      className="inline-flex h-11 cursor-pointer items-center rounded-md bg-pf-forest px-4 text-sm font-medium text-white transition-colors hover:bg-pf-moss"
                     >
                       Generate ID Card
                     </button>
                   </div>
 
-                  <div className="bg-orange-50 p-6 rounded-lg border border-orange-200">
-                    <FileText className="h-12 w-12 text-orange-600 mb-4" />
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Appointment Letters</h3>
-                    <p className="text-gray-600 mb-4">Issue appointment letters with QR codes</p>
+                  <div className="rounded-lg border border-pf-border bg-white p-6 transition-colors hover:border-pf-moss">
+                    <FileText className="h-10 w-10 text-pf-moss mb-4" aria-hidden="true" />
+                    <h3 className="text-lg font-semibold text-pf-ink mb-2">Appointment Letters</h3>
+                    <p className="text-sm text-pf-muted mb-4">Issue appointment letters with QR codes</p>
                     <button
                       onClick={() => setShowAppointmentForm(true)}
-                      className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition-colors"
+                      className="inline-flex h-11 cursor-pointer items-center rounded-md bg-pf-forest px-4 text-sm font-medium text-white transition-colors hover:bg-pf-moss"
                     >
                       Generate Letter
                     </button>
                   </div>
 
-                  <div className="bg-purple-50 p-6 rounded-lg border border-purple-200">
-                    <Receipt className="h-12 w-12 text-purple-600 mb-4" />
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Donation Receipts</h3>
-                    <p className="text-gray-600 mb-4">Generate donation receipts for donors</p>
+                  <div className="rounded-lg border border-pf-border bg-white p-6 transition-colors hover:border-pf-moss">
+                    <Receipt className="h-10 w-10 text-pf-moss mb-4" aria-hidden="true" />
+                    <h3 className="text-lg font-semibold text-pf-ink mb-2">Donation Receipts</h3>
+                    <p className="text-sm text-pf-muted mb-4">Generate donation receipts for donors</p>
                     <button
                       onClick={() => setShowDonationReceipt(true)}
-                      className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
+                      className="inline-flex h-11 cursor-pointer items-center rounded-md bg-pf-forest px-4 text-sm font-medium text-white transition-colors hover:bg-pf-moss"
                     >
                       Generate Receipt
                     </button>
                   </div>
 
-                  <div className="bg-indigo-50 p-6 rounded-lg border border-indigo-200">
-                    <Users className="h-12 w-12 text-indigo-600 mb-4" />
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Member Management</h3>
-                    <p className="text-gray-600 mb-4">Manage members, block/unblock accounts</p>
+                  <div className="rounded-lg border border-pf-border bg-white p-6 transition-colors hover:border-pf-moss">
+                    <Users className="h-10 w-10 text-pf-moss mb-4" aria-hidden="true" />
+                    <h3 className="text-lg font-semibold text-pf-ink mb-2">Member Management</h3>
+                    <p className="text-sm text-pf-muted mb-4">Manage members, block/unblock accounts</p>
                     <button
                       onClick={() => setActiveTab('members')}
-                      className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition-colors"
+                      className="inline-flex h-11 cursor-pointer items-center rounded-md bg-pf-forest px-4 text-sm font-medium text-white transition-colors hover:bg-pf-moss"
                     >
                       Manage Members
                     </button>
                   </div>
 
-                  <div className="bg-teal-50 p-6 rounded-lg border border-teal-200">
-                    <PawPrint className="h-12 w-12 text-teal-600 mb-4" />
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Content Manager</h3>
-                    <p className="text-gray-600 mb-4">Manage adoptable animals and success stories</p>
+                  <div className="rounded-lg border border-pf-border bg-white p-6 transition-colors hover:border-pf-moss">
+                    <PawPrint className="h-10 w-10 text-pf-moss mb-4" aria-hidden="true" />
+                    <h3 className="text-lg font-semibold text-pf-ink mb-2">Content Manager</h3>
+                    <p className="text-sm text-pf-muted mb-4">Manage adoptable animals and success stories</p>
                     <button
                       onClick={() => setActiveTab('content')}
-                      className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg transition-colors"
+                      className="inline-flex h-11 cursor-pointer items-center rounded-md bg-pf-forest px-4 text-sm font-medium text-white transition-colors hover:bg-pf-moss"
                     >
                       Manage Content
                     </button>
@@ -383,18 +390,19 @@ const AdminDashboard = () => {
         />
 
           {showCertificateForm && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-              <div className="bg-white rounded-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto">
-                <div className="flex justify-between items-center p-6 border-b">
-                  <h2 className="text-2xl font-bold text-gray-900 flex items-center">
-                    <Award className="h-6 w-6 mr-2 text-blue-600" />
+            <div className="fixed inset-0 bg-pf-ink/50 flex items-center justify-center z-50 p-4">
+              <div className="bg-white rounded-lg border border-pf-border max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+                <div className="flex justify-between items-center p-6 border-b border-pf-border">
+                  <h2 className="text-2xl font-semibold text-pf-forest flex items-center">
+                    <Award className="h-6 w-6 mr-2 text-pf-moss" aria-hidden="true" />
                     Certificate Generator
                   </h2>
                   <button
                     onClick={resetForm}
-                    className="text-gray-500 hover:text-gray-700"
+                    aria-label="Close certificate generator"
+                    className="cursor-pointer text-pf-muted hover:text-pf-forest transition-colors"
                   >
-                    <X className="h-6 w-6" />
+                    <X className="h-6 w-6" aria-hidden="true" />
                   </button>
                 </div>
 
@@ -402,56 +410,60 @@ const AdminDashboard = () => {
                   <form onSubmit={handleSubmit} className="p-6 space-y-6">
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          <User className="h-4 w-4 inline mr-1" />
+                        <label htmlFor="volunteerName" className="block text-sm font-medium text-pf-ink mb-2 flex items-center">
+                          <User className="h-4 w-4 inline mr-1" aria-hidden="true" />
                           Volunteer Name *
                         </label>
                         <input
+                          id="volunteerName"
                           type="text"
                           required
                           value={formData.volunteerName}
                           onChange={(e) => setFormData(prev => ({ ...prev, volunteerName: e.target.value }))}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full h-11 px-4 border border-pf-border rounded-md text-pf-ink"
                           placeholder="Enter volunteer's full name"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label htmlFor="volunteerEmail" className="block text-sm font-medium text-pf-ink mb-2">
                           Email Address *
                         </label>
                         <input
+                          id="volunteerEmail"
                           type="email"
                           required
                           value={formData.email}
                           onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full h-11 px-4 border border-pf-border rounded-md text-pf-ink"
                           placeholder="volunteer@example.com"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label htmlFor="volunteerPhone" className="block text-sm font-medium text-pf-ink mb-2">
                           Phone Number
                         </label>
                         <input
+                          id="volunteerPhone"
                           type="tel"
                           value={formData.phone}
                           onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full h-11 px-4 border border-pf-border rounded-md text-pf-ink"
                           placeholder="+91 9876543210"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label htmlFor="volunteerType" className="block text-sm font-medium text-pf-ink mb-2">
                           Volunteer Type *
                         </label>
                         <select
+                          id="volunteerType"
                           required
                           value={formData.volunteerType}
                           onChange={(e) => setFormData(prev => ({ ...prev, volunteerType: e.target.value }))}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full h-11 px-4 border border-pf-border rounded-md text-pf-ink"
                         >
                           {volunteerTypes.map(type => (
                             <option key={type} value={type}>{type}</option>
@@ -460,30 +472,32 @@ const AdminDashboard = () => {
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          <Clock className="h-4 w-4 inline mr-1" />
+                        <label htmlFor="hoursContributed" className="block text-sm font-medium text-pf-ink mb-2 flex items-center">
+                          <Clock className="h-4 w-4 inline mr-1" aria-hidden="true" />
                           Hours Contributed *
                         </label>
                         <input
+                          id="hoursContributed"
                           type="number"
                           required
                           min="1"
                           value={formData.hoursContributed || ''}
                           onChange={(e) => setFormData(prev => ({ ...prev, hoursContributed: parseInt(e.target.value) || 0 }))}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full h-11 px-4 border border-pf-border rounded-md text-pf-ink"
                           placeholder="Total hours volunteered"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label htmlFor="certificateType" className="block text-sm font-medium text-pf-ink mb-2">
                           Certificate Type *
                         </label>
                         <select
+                          id="certificateType"
                           required
                           value={formData.certificateType}
                           onChange={(e) => setFormData(prev => ({ ...prev, certificateType: e.target.value }))}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full h-11 px-4 border border-pf-border rounded-md text-pf-ink"
                         >
                           {certificateTypes.map(type => (
                             <option key={type} value={type}>{type}</option>
@@ -492,58 +506,62 @@ const AdminDashboard = () => {
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          <Calendar className="h-4 w-4 inline mr-1" />
+                        <label htmlFor="startDate" className="block text-sm font-medium text-pf-ink mb-2 flex items-center">
+                          <Calendar className="h-4 w-4 inline mr-1" aria-hidden="true" />
                           Start Date *
                         </label>
                         <input
+                          id="startDate"
                           type="date"
                           required
                           value={formData.startDate}
                           onChange={(e) => setFormData(prev => ({ ...prev, startDate: e.target.value }))}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full h-11 px-4 border border-pf-border rounded-md text-pf-ink"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          <Calendar className="h-4 w-4 inline mr-1" />
+                        <label htmlFor="endDate" className="block text-sm font-medium text-pf-ink mb-2 flex items-center">
+                          <Calendar className="h-4 w-4 inline mr-1" aria-hidden="true" />
                           End Date *
                         </label>
                         <input
+                          id="endDate"
                           type="date"
                           required
                           value={formData.endDate}
                           onChange={(e) => setFormData(prev => ({ ...prev, endDate: e.target.value }))}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full h-11 px-4 border border-pf-border rounded-md text-pf-ink"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label htmlFor="supervisorName" className="block text-sm font-medium text-pf-ink mb-2">
                           Supervisor Name *
                         </label>
                         <input
+                          id="supervisorName"
                           type="text"
                           required
                           value={formData.supervisorName}
                           onChange={(e) => setFormData(prev => ({ ...prev, supervisorName: e.target.value }))}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full h-11 px-4 border border-pf-border rounded-md text-pf-ink"
                           placeholder="Name of supervising staff"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        <FileText className="h-4 w-4 inline mr-1" />
+                      <label htmlFor="achievements" className="block text-sm font-medium text-pf-ink mb-2 flex items-center">
+                        <FileText className="h-4 w-4 inline mr-1" aria-hidden="true" />
                         Achievements & Contributions
                       </label>
                       <textarea
+                        id="achievements"
                         rows={4}
                         value={formData.achievements}
                         onChange={(e) => setFormData(prev => ({ ...prev, achievements: e.target.value }))}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                        className="w-full px-4 py-2 border border-pf-border rounded-md text-pf-ink resize-none"
                         placeholder="Describe the volunteer's key achievements, contributions, and impact..."
                       />
                     </div>
@@ -552,14 +570,14 @@ const AdminDashboard = () => {
                       <button
                         type="button"
                         onClick={resetForm}
-                        className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                        className="px-6 h-11 border border-pf-border rounded-md text-pf-ink hover:bg-pf-sage/40 transition-colors cursor-pointer"
                       >
                         Cancel
                       </button>
                       <button
                         type="submit"
                         disabled={isGenerating}
-                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+                        className="px-6 h-11 bg-pf-forest text-white rounded-md hover:bg-pf-moss transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                       >
                         {isGenerating ? 'Generating...' : 'Generate Certificate'}
                       </button>
@@ -570,15 +588,15 @@ const AdminDashboard = () => {
                     <div className="flex justify-end mb-4 space-x-4">
                       <button
                         onClick={() => setShowPreview(false)}
-                        className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                        className="px-4 h-11 border border-pf-border rounded-md text-pf-ink hover:bg-pf-sage/40 transition-colors cursor-pointer"
                       >
                         Edit Details
                       </button>
                       <button
                         onClick={downloadPDF}
-                        className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center"
+                        className="px-4 h-11 bg-pf-marigold text-white rounded-md hover:bg-pf-marigold/90 transition-colors flex items-center cursor-pointer"
                       >
-                        <Download className="h-4 w-4 mr-2" />
+                        <Download className="h-4 w-4 mr-2" aria-hidden="true" />
                         Download PDF
                       </button>
                     </div>

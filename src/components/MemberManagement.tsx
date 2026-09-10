@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Users, Search, Filter, Download, UserCheck, UserX, Edit } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Users, Search, Filter, Download, UserCheck, UserX, MinusCircle, Clock } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 interface Member {
@@ -112,65 +112,72 @@ const MemberManagement = () => {
     window.URL.revokeObjectURL(url);
   };
 
-  const getStatusColor = (status: string) => {
+  const statusMeta = (status: Member['status']) => {
     switch (status) {
-      case 'active': return 'bg-green-100 text-green-800';
-      case 'blocked': return 'bg-red-100 text-red-800';
-      case 'inactive': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'active':
+        return { label: 'active', icon: UserCheck, classes: 'bg-pf-sage text-pf-forest' };
+      case 'blocked':
+        return { label: 'blocked', icon: UserX, classes: 'bg-red-50 text-red-800' };
+      default:
+        return { label: 'inactive', icon: MinusCircle, classes: 'bg-pf-cream text-pf-muted border border-pf-border' };
     }
   };
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div
+          className="animate-spin rounded-full h-10 w-10 border-2 border-pf-border border-t-pf-forest"
+          aria-hidden="true"
+        />
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900 flex items-center">
-          <Users className="h-6 w-6 mr-2 text-blue-600" />
+      <div className="flex flex-wrap justify-between items-center gap-4">
+        <h2 className="text-2xl font-semibold text-pf-forest flex items-center">
+          <Users className="h-6 w-6 mr-2 text-pf-moss" aria-hidden="true" />
           Member Management
         </h2>
         <button
           onClick={exportToExcel}
-          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors"
+          className="inline-flex h-11 cursor-pointer items-center rounded-md bg-pf-forest px-4 text-sm font-medium text-white transition-colors hover:bg-pf-moss"
         >
-          <Download className="h-4 w-4 mr-2" />
+          <Download className="h-4 w-4 mr-2" aria-hidden="true" />
           Export Excel
         </button>
       </div>
 
       {/* Filters */}
-      <div className="bg-white p-6 rounded-lg shadow-md">
+      <div className="bg-white border border-pf-border p-6 rounded-lg">
         <div className="grid md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              <Search className="h-4 w-4 inline mr-1" />
+            <label htmlFor="member-search" className="flex items-center text-sm font-medium text-pf-ink mb-2">
+              <Search className="h-4 w-4 mr-1" aria-hidden="true" />
               Search Members
             </label>
             <input
+              id="member-search"
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full h-11 px-4 border border-pf-border rounded-md text-pf-ink"
               placeholder="Search by name, email, or member ID"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              <Filter className="h-4 w-4 inline mr-1" />
+            <label htmlFor="status-filter" className="flex items-center text-sm font-medium text-pf-ink mb-2">
+              <Filter className="h-4 w-4 mr-1" aria-hidden="true" />
               Status Filter
             </label>
             <select
+              id="status-filter"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full h-11 px-4 border border-pf-border rounded-md text-pf-ink"
             >
               <option value="all">All Status</option>
               <option value="active">Active</option>
@@ -180,13 +187,14 @@ const MemberManagement = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="membership-filter" className="block text-sm font-medium text-pf-ink mb-2">
               Membership Type
             </label>
             <select
+              id="membership-filter"
               value={membershipFilter}
               onChange={(e) => setMembershipFilter(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full h-11 px-4 border border-pf-border rounded-md text-pf-ink"
             >
               <option value="all">All Types</option>
               <option value="Regular">Regular</option>
@@ -202,106 +210,120 @@ const MemberManagement = () => {
 
       {/* Statistics */}
       <div className="grid md:grid-cols-4 gap-4">
-        <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-          <h3 className="text-lg font-semibold text-blue-900">Total Members</h3>
-          <p className="text-2xl font-bold text-blue-600">{members.length}</p>
+        <div className="bg-white border border-pf-border p-4 rounded-lg">
+          <div className="flex items-center gap-2 mb-1">
+            <Users className="h-4 w-4 text-pf-moss" aria-hidden="true" />
+            <h3 className="text-sm font-medium text-pf-muted">Total Members</h3>
+          </div>
+          <p className="text-2xl font-semibold text-pf-forest">{members.length}</p>
         </div>
-        <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-          <h3 className="text-lg font-semibold text-green-900">Active Members</h3>
-          <p className="text-2xl font-bold text-green-600">
+        <div className="bg-white border border-pf-border p-4 rounded-lg">
+          <div className="flex items-center gap-2 mb-1">
+            <UserCheck className="h-4 w-4 text-pf-moss" aria-hidden="true" />
+            <h3 className="text-sm font-medium text-pf-muted">Active Members</h3>
+          </div>
+          <p className="text-2xl font-semibold text-pf-forest">
             {members.filter(m => m.status === 'active').length}
           </p>
         </div>
-        <div className="bg-red-50 p-4 rounded-lg border border-red-200">
-          <h3 className="text-lg font-semibold text-red-900">Blocked Members</h3>
-          <p className="text-2xl font-bold text-red-600">
+        <div className="bg-white border border-pf-border p-4 rounded-lg">
+          <div className="flex items-center gap-2 mb-1">
+            <UserX className="h-4 w-4 text-red-700" aria-hidden="true" />
+            <h3 className="text-sm font-medium text-pf-muted">Blocked Members</h3>
+          </div>
+          <p className="text-2xl font-semibold text-pf-forest">
             {members.filter(m => m.status === 'blocked').length}
           </p>
         </div>
-        <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
-          <h3 className="text-lg font-semibold text-orange-900">Fee Pending</h3>
-          <p className="text-2xl font-bold text-orange-600">
+        <div className="bg-white border border-pf-border p-4 rounded-lg">
+          <div className="flex items-center gap-2 mb-1">
+            <Clock className="h-4 w-4 text-pf-marigold" aria-hidden="true" />
+            <h3 className="text-sm font-medium text-pf-muted">Fee Pending</h3>
+          </div>
+          <p className="text-2xl font-semibold text-pf-forest">
             {members.filter(m => !m.membership_fee_paid).length}
           </p>
         </div>
       </div>
 
       {/* Members Table */}
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="bg-white border border-pf-border rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+          <table className="min-w-full divide-y divide-pf-border">
+            <thead className="bg-pf-sage/40">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-pf-muted uppercase tracking-wider">
                   Member
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-pf-muted uppercase tracking-wider">
                   Contact
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-pf-muted uppercase tracking-wider">
                   Membership
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-pf-muted uppercase tracking-wider">
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-pf-muted uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {filteredMembers.map((member) => (
-                <tr key={member.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div>
-                      <div className="text-sm font-medium text-gray-900">{member.name}</div>
-                      <div className="text-sm text-gray-500">{member.member_id}</div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{member.email}</div>
-                    <div className="text-sm text-gray-500">{member.phone}</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{member.membership_type}</div>
-                    <div className="text-sm text-gray-500">
-                      Fee: {member.membership_fee_paid ? 'Paid' : 'Pending'}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(member.status)}`}>
-                      {member.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                    {member.status === 'active' ? (
-                      <button
-                        onClick={() => updateMemberStatus(member.id, 'blocked')}
-                        className="text-red-600 hover:text-red-900 flex items-center"
-                      >
-                        <UserX className="h-4 w-4 mr-1" />
-                        Block
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => updateMemberStatus(member.id, 'active')}
-                        className="text-green-600 hover:text-green-900 flex items-center"
-                      >
-                        <UserCheck className="h-4 w-4 mr-1" />
-                        Activate
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              ))}
+            <tbody className="bg-white divide-y divide-pf-border">
+              {filteredMembers.map((member) => {
+                const { label, icon: StatusIcon, classes } = statusMeta(member.status);
+                return (
+                  <tr key={member.id} className="hover:bg-pf-sage/20">
+                    <td className="px-6 py-5">
+                      <div className="text-sm font-medium text-pf-ink">{member.name}</div>
+                      <div className="text-sm text-pf-muted">{member.member_id}</div>
+                    </td>
+                    <td className="px-6 py-5">
+                      <div className="text-sm text-pf-ink">{member.email}</div>
+                      <div className="text-sm text-pf-muted">{member.phone}</div>
+                    </td>
+                    <td className="px-6 py-5">
+                      <div className="text-sm text-pf-ink">{member.membership_type}</div>
+                      <div className="text-sm text-pf-muted">
+                        Fee: {member.membership_fee_paid ? 'Paid' : 'Pending'}
+                      </div>
+                    </td>
+                    <td className="px-6 py-5">
+                      <span className={`inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-full ${classes}`}>
+                        <StatusIcon className="h-3.5 w-3.5" aria-hidden="true" />
+                        {label}
+                      </span>
+                    </td>
+                    <td className="px-6 py-5 text-sm font-medium">
+                      {member.status === 'active' ? (
+                        <button
+                          onClick={() => updateMemberStatus(member.id, 'blocked')}
+                          className="inline-flex h-9 cursor-pointer items-center gap-1 rounded-md border border-red-200 px-3 text-red-800 transition-colors hover:bg-red-50"
+                        >
+                          <UserX className="h-4 w-4" aria-hidden="true" />
+                          Block
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => updateMemberStatus(member.id, 'active')}
+                          className="inline-flex h-9 cursor-pointer items-center gap-1 rounded-md border border-pf-border px-3 text-pf-forest transition-colors hover:bg-pf-sage/40"
+                        >
+                          <UserCheck className="h-4 w-4" aria-hidden="true" />
+                          Activate
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
 
         {filteredMembers.length === 0 && (
           <div className="text-center py-12">
-            <Users className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-500">No members found matching your criteria.</p>
+            <Users className="h-12 w-12 text-pf-border mx-auto mb-4" aria-hidden="true" />
+            <p className="text-pf-muted">No members found matching your criteria.</p>
           </div>
         )}
       </div>

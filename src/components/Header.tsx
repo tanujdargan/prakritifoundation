@@ -21,30 +21,40 @@ const Header = () => {
   };
 
   return (
-    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-white shadow-md' : 'bg-transparent'
-    }`}>
+    <header
+      className={`fixed top-0 w-full z-50 border-b transition-colors duration-300 ${
+        isScrolled ? 'bg-pf-cream border-pf-border' : 'bg-transparent border-transparent'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
-          <div className="flex items-center space-x-2">
-            <Heart className={`h-8 w-8 transition-colors duration-300 ${
-              isScrolled ? 'text-blue-600' : 'text-white'
-            }`} />
-            <span className={`text-xl font-bold transition-colors duration-300 ${
-              isScrolled ? 'text-gray-900' : 'text-white'
-            }`}>
+          <div className="flex items-center gap-2">
+            <Heart
+              className={`h-7 w-7 transition-colors duration-300 ${
+                isScrolled ? 'text-pf-forest' : 'text-white'
+              }`}
+              aria-hidden="true"
+            />
+            <span
+              className={`font-display text-2xl font-semibold tracking-tight transition-colors duration-300 ${
+                isScrolled ? 'text-pf-forest' : 'text-white'
+              }`}
+            >
               Prakriti Foundation
             </span>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
+          <nav className="hidden md:flex items-center gap-8">
             {NAV_ITEMS.map((item) => (
               <button
                 key={item}
+                type="button"
                 onClick={() => scrollToSection(item)}
-                className={`text-sm font-medium transition-colors duration-300 hover:scale-105 ${
-                  isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-200'
+                className={`cursor-pointer text-sm font-medium transition-colors duration-300 ${
+                  isScrolled
+                    ? 'text-pf-ink hover:text-pf-moss'
+                    : 'text-white hover:text-pf-sage'
                 }`}
               >
                 {item.charAt(0).toUpperCase() + item.slice(1)}
@@ -54,31 +64,43 @@ const Header = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            type="button"
+            className={`md:hidden inline-flex h-11 w-11 items-center justify-center rounded-md cursor-pointer transition-colors duration-300 ${
+              isScrolled ? 'text-pf-forest' : 'text-white'
+            }`}
+            onClick={() => setIsMenuOpen((open) => !open)}
+            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-nav"
           >
             {isMenuOpen ? (
-              <X className={`h-6 w-6 ${isScrolled ? 'text-gray-900' : 'text-white'}`} />
+              <X className="h-6 w-6" aria-hidden="true" />
             ) : (
-              <Menu className={`h-6 w-6 ${isScrolled ? 'text-gray-900' : 'text-white'}`} />
+              <Menu className="h-6 w-6" aria-hidden="true" />
             )}
           </button>
         </div>
 
         {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden bg-white border-t border-gray-200 py-4">
+        <div
+          id="mobile-nav"
+          className={`md:hidden overflow-hidden transition-all duration-200 ease-out ${
+            isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+          }`}
+        >
+          <nav className="bg-pf-cream border-t border-pf-border py-2">
             {NAV_ITEMS.map((item) => (
               <button
                 key={item}
+                type="button"
                 onClick={() => scrollToSection(item)}
-                className="block w-full text-left py-2 text-gray-700 hover:text-blue-600 transition-colors"
+                className="block w-full text-left px-2 py-3 text-pf-ink hover:text-pf-moss transition-colors duration-200 cursor-pointer"
               >
                 {item.charAt(0).toUpperCase() + item.slice(1)}
               </button>
             ))}
-          </div>
-        )}
+          </nav>
+        </div>
       </div>
     </header>
   );

@@ -84,13 +84,13 @@ const SuccessStories = () => {
   };
 
   return (
-    <section id="stories" className="py-20 bg-gradient-to-b from-blue-50 to-green-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="stories" className="py-14 md:py-20 bg-pf-sage">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-6">
+          <h2 className="text-4xl font-semibold text-pf-forest mb-6">
             Success Stories
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-pf-muted max-w-3xl mx-auto">
             Every rescue tells a story of hope, healing, and new beginnings.
             Here are just a few of the lives we've been able to transform together.
           </p>
@@ -100,37 +100,41 @@ const SuccessStories = () => {
           {stories.map((story) => (
             <div
               key={story.id}
-              className="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-all duration-300"
+              className="bg-white border border-pf-border rounded-lg overflow-hidden transition-colors duration-200 hover:border-pf-moss"
             >
-              <div className="grid grid-cols-2 h-48">
-                <div className="relative">
+              <div className="grid grid-cols-2">
+                <div className="relative aspect-[4/3]">
                   <img
                     src={story.before}
-                    alt={`${story.name} before rescue`}
+                    alt={`${story.name} before rescue and rehabilitation`}
+                    loading="lazy"
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-xs font-semibold">
+                  <div className="absolute inset-0 bg-pf-forest/10" />
+                  <span className="absolute top-2 left-2 bg-pf-ink/80 text-white px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide">
                     Before
-                  </div>
+                  </span>
                 </div>
-                <div className="relative">
+                <div className="relative aspect-[4/3]">
                   <img
                     src={story.after}
-                    alt={`${story.name} after rescue`}
+                    alt={`${story.name} after rescue and rehabilitation`}
+                    loading="lazy"
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded text-xs font-semibold">
+                  <div className="absolute inset-0 bg-pf-forest/10" />
+                  <span className="absolute top-2 right-2 bg-pf-marigold text-white px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide">
                     After
-                  </div>
+                  </span>
                 </div>
               </div>
 
               <div className="p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                <h3 className="text-xl font-semibold text-pf-forest mb-3">
                   {story.name}
                 </h3>
 
-                <div className="flex items-center space-x-4 text-sm text-gray-500 mb-4">
+                <div className="flex items-center space-x-4 text-sm text-pf-muted mb-4">
                   <div className="flex items-center space-x-1">
                     <MapPin className="h-4 w-4" />
                     <span>{story.location}</span>
@@ -141,7 +145,7 @@ const SuccessStories = () => {
                   </div>
                 </div>
 
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-pf-ink leading-relaxed">
                   {story.story}
                 </p>
               </div>
@@ -150,12 +154,12 @@ const SuccessStories = () => {
         </div>
 
         <div className="text-center mt-12">
-          <p className="text-lg text-gray-600 mb-6">
+          <p className="text-lg text-pf-muted mb-6">
             Want to be part of the next success story?
           </p>
           <button
             onClick={() => document.getElementById('help')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
+            className="bg-pf-forest text-white px-8 py-3 rounded-md font-semibold transition-colors duration-200 hover:bg-pf-moss cursor-pointer"
           >
             Get Involved
           </button>

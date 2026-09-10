@@ -4,52 +4,52 @@ import { ORG } from '../lib/organization';
 
 const Contact = () => {
   return (
-    <section id="contact" className="py-20 bg-gray-50">
+    <section id="contact" className="py-20 bg-pf-cream">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-6">
+          <h2 className="text-4xl font-semibold text-pf-ink mb-6">
             Get In Touch
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Ready to make a difference? Contact us to learn more about volunteering, 
+          <p className="text-xl text-pf-muted max-w-3xl mx-auto">
+            Ready to make a difference? Contact us to learn more about volunteering,
             adoption, or supporting our mission.
           </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12">
           <div>
-            <h3 className="text-2xl font-semibold text-gray-900 mb-8">
+            <h3 className="text-2xl font-semibold text-pf-ink mb-8">
               Contact Information
             </h3>
-            
+
             <div className="space-y-6">
-              <div className="flex items-start space-x-4">
-                <div className="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Mail className="h-6 w-6 text-blue-600" />
+              <div className="flex items-start gap-4">
+                <div className="bg-pf-sage w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Mail className="h-6 w-6 text-pf-forest" aria-hidden="true" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold text-gray-900 mb-1">Email</h4>
-                  <p className="text-gray-600">{ORG.email}</p>
+                  <h4 className="text-lg font-semibold text-pf-ink mb-1">Email</h4>
+                  <p className="text-pf-muted">{ORG.email}</p>
                 </div>
               </div>
 
-              <div className="flex items-start space-x-4">
-                <div className="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Phone className="h-6 w-6 text-green-600" />
+              <div className="flex items-start gap-4">
+                <div className="bg-pf-sage w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Phone className="h-6 w-6 text-pf-forest" aria-hidden="true" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold text-gray-900 mb-1">Phone</h4>
-                  <p className="text-gray-600">{ORG.phone}</p>
+                  <h4 className="text-lg font-semibold text-pf-ink mb-1">Phone</h4>
+                  <p className="text-pf-muted">{ORG.phone}</p>
                 </div>
               </div>
 
-              <div className="flex items-start space-x-4">
-                <div className="bg-orange-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
-                  <MapPin className="h-6 w-6 text-orange-600" />
+              <div className="flex items-start gap-4">
+                <div className="bg-pf-sage w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
+                  <MapPin className="h-6 w-6 text-pf-forest" aria-hidden="true" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold text-gray-900 mb-1">Shelter Location</h4>
-                  <p className="text-gray-600">
+                  <h4 className="text-lg font-semibold text-pf-ink mb-1">Shelter Location</h4>
+                  <p className="text-pf-muted">
                     {ORG.address.line1}<br />
                     {ORG.address.line2}<br />
                     {ORG.address.line3}
@@ -59,77 +59,86 @@ const Contact = () => {
             </div>
 
             <div className="mt-12">
-              <h4 className="text-lg font-semibold text-gray-900 mb-4">
+              <h4 className="text-lg font-semibold text-pf-ink mb-4">
                 Follow Our Journey
               </h4>
-              <div className="flex space-x-4">
-                <a 
-                  href="#" 
-                  className="bg-blue-600 hover:bg-blue-700 w-12 h-12 rounded-full flex items-center justify-center transition-colors"
+              <div className="flex gap-4">
+                <a
+                  href="#"
+                  aria-label="Facebook"
+                  className="bg-pf-forest hover:bg-pf-moss w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-200 cursor-pointer"
                 >
-                  <Facebook className="h-6 w-6 text-white" />
+                  <Facebook className="h-6 w-6 text-white" aria-hidden="true" />
                 </a>
-                <a 
-                  href="#" 
-                  className="bg-pink-600 hover:bg-pink-700 w-12 h-12 rounded-full flex items-center justify-center transition-colors"
+                <a
+                  href="#"
+                  aria-label="Instagram"
+                  className="bg-pf-forest hover:bg-pf-moss w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-200 cursor-pointer"
                 >
-                  <Instagram className="h-6 w-6 text-white" />
+                  <Instagram className="h-6 w-6 text-white" aria-hidden="true" />
                 </a>
-                <a 
-                  href="#" 
-                  className="bg-blue-400 hover:bg-blue-500 w-12 h-12 rounded-full flex items-center justify-center transition-colors"
+                <a
+                  href="#"
+                  aria-label="Twitter"
+                  className="bg-pf-forest hover:bg-pf-moss w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-200 cursor-pointer"
                 >
-                  <Twitter className="h-6 w-6 text-white" />
+                  <Twitter className="h-6 w-6 text-white" aria-hidden="true" />
                 </a>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-8">
-            <h3 className="text-2xl font-semibold text-gray-900 mb-6">
+          <div className="bg-white rounded-lg border border-pf-border p-8">
+            <h3 className="text-2xl font-semibold text-pf-ink mb-6">
               Quick Contact
             </h3>
-            
+
             <div className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="contact-first-name" className="block text-sm font-medium text-pf-ink mb-2">
                     First Name
                   </label>
-                  <input 
-                    type="text" 
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  <input
+                    id="contact-first-name"
+                    type="text"
+                    className="w-full min-h-[44px] px-4 py-3 border border-pf-border rounded-md transition-colors duration-200 focus:outline-none focus:border-pf-moss"
                     placeholder="Enter your first name"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="contact-last-name" className="block text-sm font-medium text-pf-ink mb-2">
                     Last Name
                   </label>
-                  <input 
-                    type="text" 
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  <input
+                    id="contact-last-name"
+                    type="text"
+                    className="w-full min-h-[44px] px-4 py-3 border border-pf-border rounded-md transition-colors duration-200 focus:outline-none focus:border-pf-moss"
                     placeholder="Enter your last name"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="contact-email" className="block text-sm font-medium text-pf-ink mb-2">
                   Email Address
                 </label>
-                <input 
-                  type="email" 
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                <input
+                  id="contact-email"
+                  type="email"
+                  className="w-full min-h-[44px] px-4 py-3 border border-pf-border rounded-md transition-colors duration-200 focus:outline-none focus:border-pf-moss"
                   placeholder="your.email@example.com"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="contact-reason" className="block text-sm font-medium text-pf-ink mb-2">
                   How can we help you?
                 </label>
-                <select className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                <select
+                  id="contact-reason"
+                  className="w-full min-h-[44px] px-4 py-3 border border-pf-border rounded-md transition-colors duration-200 focus:outline-none focus:border-pf-moss"
+                >
                   <option>I want to adopt a pet</option>
                   <option>I want to volunteer</option>
                   <option>I want to make a donation</option>
@@ -139,17 +148,21 @@ const Contact = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="contact-message" className="block text-sm font-medium text-pf-ink mb-2">
                   Message
                 </label>
-                <textarea 
+                <textarea
+                  id="contact-message"
                   rows={4}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+                  className="w-full px-4 py-3 border border-pf-border rounded-md transition-colors duration-200 focus:outline-none focus:border-pf-moss resize-none"
                   placeholder="Tell us more about how you'd like to help or what you need..."
                 />
               </div>
 
-              <button className="w-full bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+              <button
+                type="button"
+                className="w-full bg-pf-forest hover:bg-pf-moss text-white px-6 py-3 rounded-md font-semibold transition-colors duration-200 cursor-pointer"
+              >
                 Send Message
               </button>
             </div>

@@ -228,35 +228,38 @@ const ContentManager = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div
+          className="animate-spin rounded-full h-10 w-10 border-2 border-pf-border border-t-pf-forest"
+          aria-hidden="true"
+        />
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-900 flex items-center">
-        <Sparkles className="h-6 w-6 mr-2 text-teal-600" />
+      <h2 className="text-2xl font-semibold text-pf-forest flex items-center">
+        <Sparkles className="h-6 w-6 mr-2 text-pf-moss" aria-hidden="true" />
         Content Manager
       </h2>
 
-      <div className="flex space-x-4 border-b border-gray-200">
+      <div className="flex space-x-4 border-b border-pf-border">
         <button
           onClick={() => setSubTab('animals')}
-          className={`pb-3 px-1 border-b-2 font-medium text-sm ${
+          className={`pb-3 px-1 border-b-2 text-sm cursor-pointer transition-colors ${
             subTab === 'animals'
-              ? 'border-teal-500 text-teal-600'
-              : 'border-transparent text-gray-500 hover:text-gray-700'
+              ? 'border-pf-forest font-semibold text-pf-forest'
+              : 'border-transparent font-medium text-pf-muted hover:text-pf-forest'
           }`}
         >
           Adoptable Animals
         </button>
         <button
           onClick={() => setSubTab('stories')}
-          className={`pb-3 px-1 border-b-2 font-medium text-sm ${
+          className={`pb-3 px-1 border-b-2 text-sm cursor-pointer transition-colors ${
             subTab === 'stories'
-              ? 'border-teal-500 text-teal-600'
-              : 'border-transparent text-gray-500 hover:text-gray-700'
+              ? 'border-pf-forest font-semibold text-pf-forest'
+              : 'border-transparent font-medium text-pf-muted hover:text-pf-forest'
           }`}
         >
           Success Stories
@@ -264,80 +267,86 @@ const ContentManager = () => {
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+        <div role="alert" className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-md">
           {error}
         </div>
       )}
       {message && (
-        <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
+        <div role="status" className="bg-pf-sage border border-pf-moss/30 text-pf-forest px-4 py-3 rounded-md">
           {message}
         </div>
       )}
 
       {subTab === 'animals' && (
         <div className="space-y-6">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-              <PawPrint className="h-5 w-5 mr-2 text-teal-600" />
+          <div className="bg-white border border-pf-border p-6 rounded-lg">
+            <h3 className="text-lg font-semibold text-pf-ink mb-4 flex items-center">
+              <PawPrint className="h-5 w-5 mr-2 text-pf-moss" aria-hidden="true" />
               Add Adoptable Animal
             </h3>
             <form onSubmit={addAnimal} className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Name *</label>
+                <label htmlFor="animal-name" className="block text-sm font-medium text-pf-ink mb-2">Name *</label>
                 <input
+                  id="animal-name"
                   type="text"
                   required
                   value={animalForm.name}
                   onChange={(e) => setAnimalForm((prev) => ({ ...prev, name: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  className="w-full h-11 px-4 border border-pf-border rounded-md text-pf-ink"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Species</label>
+                <label htmlFor="animal-species" className="block text-sm font-medium text-pf-ink mb-2">Species</label>
                 <input
+                  id="animal-species"
                   type="text"
                   value={animalForm.species}
                   onChange={(e) => setAnimalForm((prev) => ({ ...prev, species: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  className="w-full h-11 px-4 border border-pf-border rounded-md text-pf-ink"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Age</label>
+                <label htmlFor="animal-age" className="block text-sm font-medium text-pf-ink mb-2">Age</label>
                 <input
+                  id="animal-age"
                   type="text"
                   placeholder="e.g. 8 months"
                   value={animalForm.age}
                   onChange={(e) => setAnimalForm((prev) => ({ ...prev, age: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  className="w-full h-11 px-4 border border-pf-border rounded-md text-pf-ink"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Gender</label>
+                <label htmlFor="animal-gender" className="block text-sm font-medium text-pf-ink mb-2">Gender</label>
                 <input
+                  id="animal-gender"
                   type="text"
                   placeholder="Male / Female"
                   value={animalForm.gender}
                   onChange={(e) => setAnimalForm((prev) => ({ ...prev, gender: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  className="w-full h-11 px-4 border border-pf-border rounded-md text-pf-ink"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                <label htmlFor="animal-location" className="block text-sm font-medium text-pf-ink mb-2">Location</label>
                 <input
+                  id="animal-location"
                   type="text"
                   value={animalForm.location}
                   onChange={(e) => setAnimalForm((prev) => ({ ...prev, location: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  className="w-full h-11 px-4 border border-pf-border rounded-md text-pf-ink"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                <label htmlFor="animal-status" className="block text-sm font-medium text-pf-ink mb-2">Status</label>
                 <select
+                  id="animal-status"
                   value={animalForm.status}
                   onChange={(e) =>
                     setAnimalForm((prev) => ({ ...prev, status: e.target.value as typeof prev.status }))
                   }
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  className="w-full h-11 px-4 border border-pf-border rounded-md text-pf-ink"
                 >
                   <option value="available">Available</option>
                   <option value="pending">Pending</option>
@@ -345,48 +354,54 @@ const ContentManager = () => {
                 </select>
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Description *</label>
+                <label htmlFor="animal-description" className="block text-sm font-medium text-pf-ink mb-2">Description *</label>
                 <textarea
+                  id="animal-description"
                   required
                   rows={3}
                   value={animalForm.description}
                   onChange={(e) => setAnimalForm((prev) => ({ ...prev, description: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-pf-border rounded-md text-pf-ink"
                 />
               </div>
               <div className="flex items-center space-x-6">
-                <label className="flex items-center space-x-2 text-sm text-gray-700">
+                <label htmlFor="animal-vaccinated" className="flex items-center space-x-2 text-sm text-pf-ink cursor-pointer">
                   <input
+                    id="animal-vaccinated"
                     type="checkbox"
                     checked={animalForm.vaccinated}
                     onChange={(e) => setAnimalForm((prev) => ({ ...prev, vaccinated: e.target.checked }))}
+                    className="cursor-pointer"
                   />
                   <span>Vaccinated</span>
                 </label>
-                <label className="flex items-center space-x-2 text-sm text-gray-700">
+                <label htmlFor="animal-sterilized" className="flex items-center space-x-2 text-sm text-pf-ink cursor-pointer">
                   <input
+                    id="animal-sterilized"
                     type="checkbox"
                     checked={animalForm.sterilized}
                     onChange={(e) => setAnimalForm((prev) => ({ ...prev, sterilized: e.target.checked }))}
+                    className="cursor-pointer"
                   />
                   <span>Sterilized</span>
                 </label>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  <ImageIcon className="h-4 w-4 inline mr-1" />
+                <label htmlFor="animal-photo" className="flex items-center text-sm font-medium text-pf-ink mb-2">
+                  <ImageIcon className="h-4 w-4 mr-1" aria-hidden="true" />
                   Photo *
                 </label>
                 <input
+                  id="animal-photo"
                   type="file"
                   accept="image/*"
                   disabled={uploadingAnimalImage}
                   onChange={(e) => handleAnimalImageUpload(e.target.files?.[0])}
-                  className="w-full text-sm text-gray-600"
+                  className="w-full text-sm text-pf-muted cursor-pointer"
                 />
                 {uploadingAnimalImage && (
-                  <p className="text-sm text-teal-600 mt-1 flex items-center">
-                    <Upload className="h-4 w-4 mr-1 animate-pulse" />
+                  <p className="text-sm text-pf-moss mt-1 flex items-center" role="status">
+                    <Upload className="h-4 w-4 mr-1 animate-pulse" aria-hidden="true" />
                     Uploading photo...
                   </p>
                 )}
@@ -394,7 +409,10 @@ const ContentManager = () => {
                   <img
                     src={animalForm.image_url}
                     alt="Preview"
-                    className="mt-2 h-20 w-20 object-cover rounded-lg"
+                    loading="lazy"
+                    width={80}
+                    height={80}
+                    className="mt-2 h-20 w-20 object-cover rounded-md"
                   />
                 )}
               </div>
@@ -402,7 +420,7 @@ const ContentManager = () => {
                 <button
                   type="submit"
                   disabled={uploadingAnimalImage}
-                  className="bg-teal-600 hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-2 rounded-lg font-semibold transition-colors"
+                  className="h-11 px-6 inline-flex items-center rounded-md bg-pf-forest text-white font-medium transition-colors hover:bg-pf-moss disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
                   Add Animal
                 </button>
@@ -410,41 +428,48 @@ const ContentManager = () => {
             </form>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="bg-white border border-pf-border rounded-lg overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+              <table className="min-w-full divide-y divide-pf-border">
+                <thead className="bg-pf-sage/40">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Animal</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Details</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-pf-muted uppercase tracking-wider">Animal</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-pf-muted uppercase tracking-wider">Details</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-pf-muted uppercase tracking-wider">Status</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-pf-muted uppercase tracking-wider">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white divide-y divide-pf-border">
                   {animals.map((animal) => (
-                    <tr key={animal.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap">
+                    <tr key={animal.id} className="hover:bg-pf-sage/20">
+                      <td className="px-6 py-5">
                         <div className="flex items-center space-x-3">
-                          <img src={animal.image_url} alt={animal.name} className="h-10 w-10 object-cover rounded-lg" />
-                          <div className="text-sm font-medium text-gray-900">{animal.name}</div>
+                          <img
+                            src={animal.image_url}
+                            alt={animal.name}
+                            loading="lazy"
+                            width={40}
+                            height={40}
+                            className="h-10 w-10 object-cover rounded-md"
+                          />
+                          <div className="text-sm font-medium text-pf-ink">{animal.name}</div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{animal.species} · {animal.age || '—'}</div>
-                        <div className="text-sm text-gray-500">{animal.location || '—'}</div>
+                      <td className="px-6 py-5">
+                        <div className="text-sm text-pf-ink">{animal.species} · {animal.age || '—'}</div>
+                        <div className="text-sm text-pf-muted">{animal.location || '—'}</div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-teal-100 text-teal-800">
+                      <td className="px-6 py-5">
+                        <span className="inline-flex px-2.5 py-1 text-xs font-semibold rounded-full bg-pf-sage text-pf-forest">
                           {animal.status}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <td className="px-6 py-5 text-sm font-medium">
                         <button
                           onClick={() => deleteAnimal(animal.id, animal.name)}
-                          className="text-red-600 hover:text-red-900 flex items-center"
+                          className="inline-flex h-9 cursor-pointer items-center gap-1 rounded-md border border-red-200 px-3 text-red-800 transition-colors hover:bg-red-50"
                         >
-                          <Trash2 className="h-4 w-4 mr-1" />
+                          <Trash2 className="h-4 w-4" aria-hidden="true" />
                           Delete
                         </button>
                       </td>
@@ -456,8 +481,8 @@ const ContentManager = () => {
 
             {animals.length === 0 && (
               <div className="text-center py-12">
-                <PawPrint className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-500">No adoptable animals added yet.</p>
+                <PawPrint className="h-12 w-12 text-pf-border mx-auto mb-4" aria-hidden="true" />
+                <p className="text-pf-muted">No adoptable animals added yet.</p>
               </div>
             )}
           </div>
@@ -466,66 +491,71 @@ const ContentManager = () => {
 
       {subTab === 'stories' && (
         <div className="space-y-6">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-              <Sparkles className="h-5 w-5 mr-2 text-teal-600" />
+          <div className="bg-white border border-pf-border p-6 rounded-lg">
+            <h3 className="text-lg font-semibold text-pf-ink mb-4 flex items-center">
+              <Sparkles className="h-5 w-5 mr-2 text-pf-moss" aria-hidden="true" />
               Add Success Story
             </h3>
             <form onSubmit={addStory} className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Name / Title *</label>
+                <label htmlFor="story-name" className="block text-sm font-medium text-pf-ink mb-2">Name / Title *</label>
                 <input
+                  id="story-name"
                   type="text"
                   required
                   value={storyForm.name}
                   onChange={(e) => setStoryForm((prev) => ({ ...prev, name: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  className="w-full h-11 px-4 border border-pf-border rounded-md text-pf-ink"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                <label htmlFor="story-location" className="block text-sm font-medium text-pf-ink mb-2">Location</label>
                 <input
+                  id="story-location"
                   type="text"
                   value={storyForm.location}
                   onChange={(e) => setStoryForm((prev) => ({ ...prev, location: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  className="w-full h-11 px-4 border border-pf-border rounded-md text-pf-ink"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
+                <label htmlFor="story-date" className="block text-sm font-medium text-pf-ink mb-2">Date</label>
                 <input
+                  id="story-date"
                   type="text"
                   placeholder="e.g. December 2024"
                   value={storyForm.story_date}
                   onChange={(e) => setStoryForm((prev) => ({ ...prev, story_date: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  className="w-full h-11 px-4 border border-pf-border rounded-md text-pf-ink"
                 />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Story *</label>
+                <label htmlFor="story-text" className="block text-sm font-medium text-pf-ink mb-2">Story *</label>
                 <textarea
+                  id="story-text"
                   required
                   rows={3}
                   value={storyForm.story}
                   onChange={(e) => setStoryForm((prev) => ({ ...prev, story: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-pf-border rounded-md text-pf-ink"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  <ImageIcon className="h-4 w-4 inline mr-1" />
+                <label htmlFor="story-before-photo" className="flex items-center text-sm font-medium text-pf-ink mb-2">
+                  <ImageIcon className="h-4 w-4 mr-1" aria-hidden="true" />
                   Before Photo
                 </label>
                 <input
+                  id="story-before-photo"
                   type="file"
                   accept="image/*"
                   disabled={uploadingBeforeImage}
                   onChange={(e) => handleStoryImageUpload(e.target.files?.[0], 'before_image_url')}
-                  className="w-full text-sm text-gray-600"
+                  className="w-full text-sm text-pf-muted cursor-pointer"
                 />
                 {uploadingBeforeImage && (
-                  <p className="text-sm text-teal-600 mt-1 flex items-center">
-                    <Upload className="h-4 w-4 mr-1 animate-pulse" />
+                  <p className="text-sm text-pf-moss mt-1 flex items-center" role="status">
+                    <Upload className="h-4 w-4 mr-1 animate-pulse" aria-hidden="true" />
                     Uploading photo...
                   </p>
                 )}
@@ -533,25 +563,29 @@ const ContentManager = () => {
                   <img
                     src={storyForm.before_image_url}
                     alt="Before preview"
-                    className="mt-2 h-20 w-20 object-cover rounded-lg"
+                    loading="lazy"
+                    width={80}
+                    height={80}
+                    className="mt-2 h-20 w-20 object-cover rounded-md"
                   />
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  <ImageIcon className="h-4 w-4 inline mr-1" />
+                <label htmlFor="story-after-photo" className="flex items-center text-sm font-medium text-pf-ink mb-2">
+                  <ImageIcon className="h-4 w-4 mr-1" aria-hidden="true" />
                   After Photo *
                 </label>
                 <input
+                  id="story-after-photo"
                   type="file"
                   accept="image/*"
                   disabled={uploadingAfterImage}
                   onChange={(e) => handleStoryImageUpload(e.target.files?.[0], 'after_image_url')}
-                  className="w-full text-sm text-gray-600"
+                  className="w-full text-sm text-pf-muted cursor-pointer"
                 />
                 {uploadingAfterImage && (
-                  <p className="text-sm text-teal-600 mt-1 flex items-center">
-                    <Upload className="h-4 w-4 mr-1 animate-pulse" />
+                  <p className="text-sm text-pf-moss mt-1 flex items-center" role="status">
+                    <Upload className="h-4 w-4 mr-1 animate-pulse" aria-hidden="true" />
                     Uploading photo...
                   </p>
                 )}
@@ -559,7 +593,10 @@ const ContentManager = () => {
                   <img
                     src={storyForm.after_image_url}
                     alt="After preview"
-                    className="mt-2 h-20 w-20 object-cover rounded-lg"
+                    loading="lazy"
+                    width={80}
+                    height={80}
+                    className="mt-2 h-20 w-20 object-cover rounded-md"
                   />
                 )}
               </div>
@@ -567,7 +604,7 @@ const ContentManager = () => {
                 <button
                   type="submit"
                   disabled={uploadingBeforeImage || uploadingAfterImage}
-                  className="bg-teal-600 hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-2 rounded-lg font-semibold transition-colors"
+                  className="h-11 px-6 inline-flex items-center rounded-md bg-pf-forest text-white font-medium transition-colors hover:bg-pf-moss disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
                   Add Story
                 </button>
@@ -575,35 +612,42 @@ const ContentManager = () => {
             </form>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="bg-white border border-pf-border rounded-lg overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+              <table className="min-w-full divide-y divide-pf-border">
+                <thead className="bg-pf-sage/40">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Story</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Details</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-pf-muted uppercase tracking-wider">Story</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-pf-muted uppercase tracking-wider">Details</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-pf-muted uppercase tracking-wider">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white divide-y divide-pf-border">
                   {stories.map((story) => (
-                    <tr key={story.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap">
+                    <tr key={story.id} className="hover:bg-pf-sage/20">
+                      <td className="px-6 py-5">
                         <div className="flex items-center space-x-3">
-                          <img src={story.after_image_url} alt={story.name} className="h-10 w-10 object-cover rounded-lg" />
-                          <div className="text-sm font-medium text-gray-900">{story.name}</div>
+                          <img
+                            src={story.after_image_url}
+                            alt={story.name}
+                            loading="lazy"
+                            width={40}
+                            height={40}
+                            className="h-10 w-10 object-cover rounded-md"
+                          />
+                          <div className="text-sm font-medium text-pf-ink">{story.name}</div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{story.location || '—'}</div>
-                        <div className="text-sm text-gray-500">{story.story_date || '—'}</div>
+                      <td className="px-6 py-5">
+                        <div className="text-sm text-pf-ink">{story.location || '—'}</div>
+                        <div className="text-sm text-pf-muted">{story.story_date || '—'}</div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <td className="px-6 py-5 text-sm font-medium">
                         <button
                           onClick={() => deleteStory(story.id, story.name)}
-                          className="text-red-600 hover:text-red-900 flex items-center"
+                          className="inline-flex h-9 cursor-pointer items-center gap-1 rounded-md border border-red-200 px-3 text-red-800 transition-colors hover:bg-red-50"
                         >
-                          <Trash2 className="h-4 w-4 mr-1" />
+                          <Trash2 className="h-4 w-4" aria-hidden="true" />
                           Delete
                         </button>
                       </td>
@@ -615,8 +659,8 @@ const ContentManager = () => {
 
             {stories.length === 0 && (
               <div className="text-center py-12">
-                <Sparkles className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-500">No success stories added yet.</p>
+                <Sparkles className="h-12 w-12 text-pf-border mx-auto mb-4" aria-hidden="true" />
+                <p className="text-pf-muted">No success stories added yet.</p>
               </div>
             )}
           </div>

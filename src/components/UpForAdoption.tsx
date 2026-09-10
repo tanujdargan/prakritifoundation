@@ -91,13 +91,13 @@ const UpForAdoption = () => {
   };
 
   return (
-    <section id="adoption" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="adoption" className="py-14 md:py-20 bg-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-6">
+          <h2 className="text-4xl font-semibold text-pf-forest mb-6">
             Up for Adoption
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-pf-muted max-w-3xl mx-auto">
             These rescued animals are healthy, loved, and ready to find their forever homes.
             Could one of them be your next family member?
           </p>
@@ -108,40 +108,42 @@ const UpForAdoption = () => {
             ? Array.from({ length: 3 }).map((_, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-xl shadow-lg overflow-hidden animate-pulse"
+                  className="bg-white border border-pf-border rounded-lg overflow-hidden animate-pulse flex flex-col"
                 >
-                  <div className="h-56 bg-gray-200" />
+                  <div className="aspect-[4/3] bg-pf-border" />
                   <div className="p-6 space-y-3">
-                    <div className="h-5 bg-gray-200 rounded w-1/2" />
-                    <div className="h-4 bg-gray-200 rounded w-3/4" />
-                    <div className="h-4 bg-gray-200 rounded w-full" />
-                    <div className="h-4 bg-gray-200 rounded w-full" />
-                    <div className="h-10 bg-gray-200 rounded w-full" />
+                    <div className="h-5 bg-pf-border rounded w-1/2" />
+                    <div className="h-4 bg-pf-border rounded w-3/4" />
+                    <div className="h-4 bg-pf-border rounded w-full" />
+                    <div className="h-4 bg-pf-border rounded w-full" />
+                    <div className="h-10 bg-pf-border rounded w-full" />
                   </div>
                 </div>
               ))
             : animals.map((animal) => (
                 <div
                   key={animal.id}
-                  className="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-all duration-300"
+                  className="bg-white border border-pf-border rounded-lg overflow-hidden transition-colors duration-200 hover:border-pf-moss flex flex-col"
                 >
-                  <div className="relative h-56">
+                  <div className="relative aspect-[4/3] flex-shrink-0">
                     <img
                       src={animal.image_url}
-                      alt={animal.name}
+                      alt={`${animal.name}, a ${animal.species.toLowerCase()} available for adoption`}
+                      loading="lazy"
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute top-2 left-2 bg-blue-600 text-white px-2 py-1 rounded text-xs font-semibold">
+                    <div className="absolute inset-0 bg-pf-forest/10" />
+                    <span className="absolute top-2 left-2 bg-pf-forest text-white px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide">
                       {animal.species}
-                    </div>
+                    </span>
                   </div>
 
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  <div className="p-6 flex flex-col flex-1">
+                    <h3 className="text-2xl font-semibold text-pf-forest mb-3">
                       {animal.name}
                     </h3>
 
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-500 mb-4">
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-pf-muted mb-4">
                       {animal.age && (
                         <div className="flex items-center space-x-1">
                           <Cake className="h-4 w-4" />
@@ -162,20 +164,20 @@ const UpForAdoption = () => {
                       )}
                     </div>
 
-                    <p className="text-gray-600 leading-relaxed mb-4">
+                    <p className="text-pf-muted leading-relaxed mb-4 flex-1">
                       {animal.description}
                     </p>
 
                     {(animal.vaccinated || animal.sterilized) && (
                       <div className="flex flex-wrap gap-2 mb-4">
                         {animal.vaccinated && (
-                          <span className="inline-flex items-center space-x-1 bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-semibold">
+                          <span className="inline-flex items-center gap-1 bg-pf-sage text-pf-forest px-2.5 py-1 rounded-full text-xs font-medium">
                             <Syringe className="h-3 w-3" />
                             <span>Vaccinated</span>
                           </span>
                         )}
                         {animal.sterilized && (
-                          <span className="inline-flex items-center space-x-1 bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-semibold">
+                          <span className="inline-flex items-center gap-1 bg-pf-sage text-pf-forest px-2.5 py-1 rounded-full text-xs font-medium">
                             <ShieldCheck className="h-3 w-3" />
                             <span>Sterilized</span>
                           </span>
@@ -185,7 +187,7 @@ const UpForAdoption = () => {
 
                     <button
                       onClick={() => handleEnquire(animal.name)}
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300"
+                      className="mt-auto w-full inline-flex items-center justify-center bg-pf-marigold text-white px-4 py-3 rounded-md font-semibold min-h-[44px] transition-colors duration-200 hover:bg-pf-forest cursor-pointer"
                     >
                       Enquire about {animal.name}
                     </button>

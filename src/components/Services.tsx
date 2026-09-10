@@ -24,41 +24,44 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-6">
+    <section id="services" className="bg-pf-sage py-20">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-16 text-center">
+          <h2 className="mb-6 text-4xl font-semibold text-pf-forest">
             Our Services
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="mx-auto max-w-prose text-xl text-pf-muted">
             We care for animals at every stage — from treatment and daily assistance to finding them a permanent home.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {services.map((service, index) => (
-            <div 
+            <div
               key={index}
-              className="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 hover:shadow-xl transition-all duration-300"
+              className="flex h-full flex-col overflow-hidden rounded-lg border border-pf-border bg-white transition-colors duration-200 hover:border-pf-moss hover:bg-pf-sage/40"
             >
-              <div className="relative h-48 overflow-hidden">
-                <img 
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <img
                   src={service.image}
-                  alt={service.title}
-                  className="w-full h-full object-cover"
+                  alt={`${service.title} at Prakriti Foundation`}
+                  width={400}
+                  height={300}
+                  loading="lazy"
+                  className="h-full w-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-pf-forest/80 via-pf-forest/10 to-transparent" />
                 <div className="absolute bottom-4 left-4">
-                  <service.icon className="h-8 w-8 text-white" />
+                  <service.icon className="h-8 w-8 text-white" aria-hidden="true" />
                 </div>
               </div>
-              
-              <div className="p-6">
-                <h3 className={`text-xl font-semibold text-gray-900 ${service.description ? 'mb-3' : ''}`}>
+
+              <div className={`flex flex-1 flex-col p-6 ${service.description ? '' : 'justify-center'}`}>
+                <h3 className={`text-xl font-semibold text-pf-forest ${service.description ? 'mb-3' : ''}`}>
                   {service.title}
                 </h3>
                 {service.description && (
-                  <p className="text-gray-600 leading-relaxed">
+                  <p className="leading-relaxed text-pf-muted">
                     {service.description}
                   </p>
                 )}
