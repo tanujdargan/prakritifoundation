@@ -24,6 +24,15 @@ const SEED_STORIES: Story[] = [
     before: '/media/story-calf-before.jpg',
     after: '/media/story-calf-after.jpg',
     story: 'Picked up from the roadside by our team and moved to the shelter, where she is being fed and cared for.'
+  },
+  {
+    id: 'seed-calf-2',
+    name: 'Back on her feet',
+    location: 'Indore',
+    date: 'September 2026',
+    before: '/media/story-calf2-before.jpg',
+    after: '/media/story-calf2-after.jpg',
+    story: 'Treated and fed by our team, and now healthy enough to be back out with the herd.'
   }
 ];
 

@@ -164,6 +164,33 @@ const HowToHelp = () => {
               </p>
             </div>
           </div>
+
+          <div className="mt-10 border-t border-pf-cream/20 pt-8 text-left max-w-xl mx-auto">
+            <h4 className="text-sm uppercase tracking-wide text-pf-sage mb-4">
+              By cheque or bank transfer
+            </h4>
+            <dl className="space-y-2 text-sm">
+              <div className="sm:flex sm:gap-3">
+                <dt className="text-pf-sage sm:w-40 shrink-0">Cheques payable to</dt>
+                <dd className="text-white font-medium">{ORG.bank.accountName}</dd>
+              </div>
+              <div className="sm:flex sm:gap-3">
+                <dt className="text-pf-sage sm:w-40 shrink-0">Bank</dt>
+                <dd className="text-white">{ORG.bank.bankName}</dd>
+              </div>
+              <div className="sm:flex sm:gap-3">
+                <dt className="text-pf-sage sm:w-40 shrink-0">Account number</dt>
+                <dd className="text-white font-mono tabular-nums">{ORG.bank.accountNumber}</dd>
+              </div>
+              <div className="sm:flex sm:gap-3">
+                <dt className="text-pf-sage sm:w-40 shrink-0">Branch</dt>
+                <dd className="text-white">{ORG.bank.branch}</dd>
+              </div>
+            </dl>
+            <p className="mt-4 text-sm text-pf-sage">
+              Please email {ORG.email} once sent, so we can issue your 80G receipt.
+            </p>
+          </div>
         </div>
       </div>
 

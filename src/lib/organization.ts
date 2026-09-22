@@ -24,6 +24,18 @@ export const ORG = {
   // Donations. The QR image lives at /media/upi-qr.png.
   upiId: 'prakritifoundation.82082332@hdfcbank',
 
+  // For cheques and bank transfers. Deliberately excludes the account
+  // holder's personal mobile, personal email and home address, which appear
+  // on the cheque book but are not needed to pay and should not be published.
+  // IFSC is still missing and is required for NEFT/IMPS - cheques work
+  // without it, transfers do not.
+  bank: {
+    accountName: 'Prakriti Foundation',
+    bankName: 'HDFC Bank',
+    accountNumber: '50200115061294',
+    branch: 'Palasia Main Road, Indore - 452001',
+  },
+
   pan: 'AAQCP1436Q',
   urn80G: 'AAQCP1436QF20251',
 } as const;
