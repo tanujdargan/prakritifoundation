@@ -1,35 +1,32 @@
 > **STATUS — updated 22 Sep 2026**
 >
-> A fresh project has been created and the schema applied:
-> **`nheeyglhwaofxhwgkawm`** (region `ap-south-1`, Mumbai).
-> `https://nheeyglhwaofxhwgkawm.supabase.co`
+> Live project: **`yrxdytjxngdypkvifvre`** — "prakritifoundationv4@gmail.com's
+> Project", region `ap-south-1`. This is the foundation's own Supabase
+> account, not a personal or company one.
 >
-> Already done: all tables, RLS (verified — the anon role cannot read
-> donors, members, certificates or appointment letters), the public
-> `content` storage bucket, and the `create_donation_receipt` function that
-> lets a donor generate a receipt without gaining read access to any other.
+> Applied and verified over HTTP with the real anon key: all three
+> migrations, the `content` storage bucket, the admin user
+> `director@prakritifoundation.info` on the `admin_users` allowlist.
+> Anonymous callers read nothing from donation_receipts, members,
+> volunteer_certificates or appointment_letters even with rows present;
+> they can create a receipt through `create_donation_receipt` and nothing
+> else; a direct insert is refused with 401.
 >
-> Also done: the admin user `director@prakritifoundation.info` exists and is
-> on the `admin_users` allowlist, and Vercel has been pointed at the new
-> project.
+> Access is not granted by holding an account. Policies check
+> `public.is_admin()`, which requires a row in `admin_users`. To add staff:
+> create the Auth user, then add them to `admin_users` — the login alone is
+> deliberately not enough.
 >
-> Access is no longer granted by "is signed in". Policies check
-> `public.is_admin()`, which requires a row in `admin_users`. A stranger who
-> signs up therefore reads nothing, verified by simulating exactly that. To
-> add another staff member, create the Auth user and then insert their id
-> into `admin_users` — creating the login alone is not enough, by design.
->
-> Two things still need a human in the dashboard, neither of which now
-> protects anything on its own:
+> Two dashboard settings still worth enabling, neither of which is now the
+> only thing protecting anything:
 >   1. Authentication -> Providers -> Email: turn **off** public sign-ups.
->   2. Authentication -> Policies: enable **leaked password protection**
->      (checks new passwords against HaveIBeenPwned). Supabase's own advisor
->      flags this as disabled.
+>   2. Authentication: enable **leaked password protection**.
 >
-> The old project (`vjjhsagfkwqafflbchfq`) is still what production uses
-> until those env vars are swapped. Delete it only after migrating any rows
-> worth keeping — its anon key is permanently public in already-shipped
-> bundles, so pointing away from it is not the same as closing it.
+> Dead ends, for the record: `nheeyglhwaofxhwgkawm` was created in error in
+> the wrong organisation and is paused pending deletion, and
+> `vjjhsagfkwqafflbchfq` is the original Bolt project whose open policies
+> caused the exposure. Neither should be used.
+
 
 # Supabase Setup Guide (for non-technical staff)
 
