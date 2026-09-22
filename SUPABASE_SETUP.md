@@ -1,3 +1,23 @@
+> **STATUS — updated 22 Sep 2026**
+>
+> A fresh project has been created and the schema applied:
+> **`nheeyglhwaofxhwgkawm`** (region `ap-south-1`, Mumbai).
+> `https://nheeyglhwaofxhwgkawm.supabase.co`
+>
+> Already done: all tables, RLS (verified — the anon role cannot read
+> donors, members, certificates or appointment letters), the public
+> `content` storage bucket, and the `create_donation_receipt` function that
+> lets a donor generate a receipt without gaining read access to any other.
+>
+> Steps 1 and 2 below are therefore **already complete for this project**.
+> What remains is step 3 (create the admin user), turning off public
+> sign-ups, and pointing Vercel at the new URL and anon key.
+>
+> The old project (`vjjhsagfkwqafflbchfq`) is still what production uses
+> until those env vars are swapped. Delete it only after migrating any rows
+> worth keeping — its anon key is permanently public in already-shipped
+> bundles, so pointing away from it is not the same as closing it.
+
 # Supabase Setup Guide (for non-technical staff)
 
 This guide connects the website to a Supabase database so your team can

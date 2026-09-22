@@ -14,12 +14,15 @@ export const ORG = {
   addressOneLine:
     'Plot No. 52-A, Sheetal Nagar, Near Bombay Hospital, Vijay Nagar, Indore, Madhya Pradesh - 452010',
 
-  // TODO: real number still pending from the client — it was masked as
-  // "+91 989xxxxxxx" in the reference receipt. Change it here and it updates
-  // everywhere it is shown.
-  phone: '+91 9876543210',
-  email: 'prakritifoundation@gmail.com',
-  website: 'www.prakritifoundation.org',
+  phone: '+91 91366 92937',
+  phoneE164: '919136692937',
+  email: 'director@prakritifoundation.info',
+  website: 'www.prakritifoundation.info',
+
+  instagram: 'https://www.instagram.com/prakritifoundation_',
+
+  // Donations. The QR image lives at /media/upi-qr.png.
+  upiId: 'prakritifoundation.82082332@hdfcbank',
 
   pan: 'AAQCP1436Q',
   urn80G: 'AAQCP1436QF20251',

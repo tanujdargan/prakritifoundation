@@ -19,7 +19,7 @@ const Services = () => {
       icon: Heart,
       title: "Cow Rescue Program/s",
       description: "",
-      image: "https://images.pexels.com/photos/1805164/pexels-photo-1805164.jpeg?auto=compress&cs=tinysrgb&w=400"
+      image: "/media/cow-rescue.jpg"
     }
   ];
 

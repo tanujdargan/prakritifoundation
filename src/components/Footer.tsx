@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, Mail, Phone, Facebook, Instagram, Twitter } from 'lucide-react';
+import { Heart, Mail, Phone, Instagram } from 'lucide-react';
 import { ORG } from '../lib/organization';
 
 const Footer = () => {
@@ -24,25 +24,13 @@ const Footer = () => {
             </p>
             <div className="flex gap-4">
               <a
-                href="#"
-                aria-label="Facebook"
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-pf-cream/20 bg-pf-cream/10 text-pf-cream transition-colors duration-200 hover:bg-pf-moss cursor-pointer"
-              >
-                <Facebook className="h-5 w-5" aria-hidden="true" />
-              </a>
-              <a
-                href="#"
-                aria-label="Instagram"
+                href={ORG.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Prakriti Foundation on Instagram"
                 className="flex h-11 w-11 items-center justify-center rounded-full border border-pf-cream/20 bg-pf-cream/10 text-pf-cream transition-colors duration-200 hover:bg-pf-moss cursor-pointer"
               >
                 <Instagram className="h-5 w-5" aria-hidden="true" />
-              </a>
-              <a
-                href="#"
-                aria-label="Twitter"
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-pf-cream/20 bg-pf-cream/10 text-pf-cream transition-colors duration-200 hover:bg-pf-moss cursor-pointer"
-              >
-                <Twitter className="h-5 w-5" aria-hidden="true" />
               </a>
             </div>
           </div>
@@ -81,12 +69,18 @@ const Footer = () => {
                 >
                   How to Help
                 </button>
-                <a href="#" className="block hover:text-white transition-colors duration-200">
+                <button
+                  onClick={() => scrollToSection('adoption')}
+                  className="block text-left hover:text-white transition-colors duration-200 cursor-pointer"
+                >
                   Adoption
-                </a>
-                <a href="#" className="block hover:text-white transition-colors duration-200">
+                </button>
+                <button
+                  onClick={() => scrollToSection('contact')}
+                  className="block text-left hover:text-white transition-colors duration-200 cursor-pointer"
+                >
                   Volunteer
-                </a>
+                </button>
               </div>
             </div>
           </div>

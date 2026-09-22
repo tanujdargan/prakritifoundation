@@ -16,39 +16,30 @@ interface AdoptableAnimal {
 }
 
 const SEED_ANIMALS: AdoptableAnimal[] = [
+  // Real animals and photos supplied by the foundation. Age, gender and
+  // vaccination status were NOT supplied — they are left blank rather than
+  // guessed, because someone choosing to adopt relies on them.
   {
-    id: 'seed-1',
-    name: 'Rocky',
+    id: 'seed-oreo',
+    name: 'Oreo',
     species: 'Dog',
-    age: '8 months',
-    gender: 'Male',
+    age: '',
+    gender: '',
     location: 'Indore',
-    description: 'Rocky is a playful, affectionate pup who loves company and gets along well with children and other dogs.',
-    image_url: 'https://images.pexels.com/photos/1254140/pexels-photo-1254140.jpeg?auto=compress&cs=tinysrgb&w=400',
-    vaccinated: true,
+    description: 'Oreo is looking for a home. Get in touch to arrange a visit and meet him.',
+    image_url: '/media/adopt-oreo.jpg',
+    vaccinated: false,
     sterilized: false
   },
   {
-    id: 'seed-2',
-    name: 'Coco',
+    id: 'seed-pluto',
+    name: 'Pluto',
     species: 'Dog',
-    age: 'approx 2 years',
-    gender: 'Female',
+    age: '',
+    gender: '',
     location: 'Indore',
-    description: 'Coco was rescued from a busy street and has since become calm, gentle, and eager to please. She is looking for a quiet, loving home.',
-    image_url: 'https://images.pexels.com/photos/6235232/pexels-photo-6235232.jpeg?auto=compress&cs=tinysrgb&w=400',
-    vaccinated: true,
-    sterilized: true
-  },
-  {
-    id: 'seed-3',
-    name: 'Simba',
-    species: 'Dog',
-    age: '1.5 years',
-    gender: 'Male',
-    location: 'Indore',
-    description: 'Simba is full of energy and loves long walks. He is well socialized and would do best in an active household.',
-    image_url: 'https://images.pexels.com/photos/1490908/pexels-photo-1490908.jpeg?auto=compress&cs=tinysrgb&w=400',
+    description: 'Pluto is looking for a home. Get in touch to arrange a visit and meet him.',
+    image_url: '/media/adopt-pluto.jpg',
     vaccinated: false,
     sterilized: false
   }

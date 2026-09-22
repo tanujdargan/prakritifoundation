@@ -1,5 +1,6 @@
 import React from 'react';
 import { Users, Home, IndianRupee, Receipt, Award } from 'lucide-react';
+import { ORG } from '../lib/organization';
 import DonationReceipt from './DonationReceipt';
 import VolunteerCertificate from './VolunteerCertificate';
 
@@ -7,12 +8,16 @@ const HowToHelp = () => {
   const [showReceiptModal, setShowReceiptModal] = React.useState(false);
   const [showCertificateModal, setShowCertificateModal] = React.useState(false);
 
+  const goTo = (id: string) =>
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+
   const helpOptions = [
     {
       icon: IndianRupee,
       title: "Make a Donation",
       description: "Your financial support helps us provide food, medical care, and shelter for animals in need.",
       action: "Donate Now",
+      target: "donate",
       details: [
         "₹500 - Feeds 10 animals for a week",
         "₹1000 - Covers basic medical treatment",
@@ -25,6 +30,7 @@ const HowToHelp = () => {
       title: "Volunteer With Us",
       description: "Join our team of passionate volunteers and make a direct impact in animal rescue and care.",
       action: "Volunteer",
+      target: "contact",
       details: [
         "Rescue operations and transport",
         "Animal care and feeding",
@@ -37,6 +43,7 @@ const HowToHelp = () => {
       title: "Adopt a Friend",
       description: "Give a rescued animal a loving forever home and experience the joy of unconditional love.",
       action: "See Adoptable Pets",
+      target: "adoption",
       details: [
         "All animals are vaccinated and healthy",
         "Free post-adoption support",
@@ -84,7 +91,11 @@ const HowToHelp = () => {
                 ))}
               </div>
 
-              <button className="w-full bg-pf-marigold text-white px-6 py-3 rounded-md font-semibold">
+              <button
+                type="button"
+                onClick={() => goTo(option.target)}
+                className="w-full min-h-[44px] bg-pf-marigold text-white px-6 py-3 rounded-md font-semibold cursor-pointer transition-colors duration-200 hover:bg-pf-marigold/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pf-forest focus-visible:ring-offset-2"
+              >
                 {option.action}
               </button>
             </div>
@@ -128,7 +139,7 @@ const HowToHelp = () => {
           </a>
         </div>
 
-        <div className="mt-16 bg-pf-forest rounded-lg p-8 text-center">
+        <div id="donate" className="mt-16 scroll-mt-24 bg-pf-forest rounded-lg p-8 text-center">
           <h3 className="text-2xl font-semibold mb-4 text-white">
             Every Contribution Matters
           </h3>
@@ -136,12 +147,21 @@ const HowToHelp = () => {
             Whether you donate ₹50 or ₹5000, volunteer an hour or a day, every act of kindness
             brings us closer to our goal of creating a more compassionate world.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <div className="bg-pf-cream/10 border border-pf-cream/20 rounded-md px-4 py-2">
-              <span className="text-sm text-pf-cream">Contact us for payment details</span>
-            </div>
-            <div className="bg-pf-cream/10 border border-pf-cream/20 rounded-md px-4 py-2">
-              <span className="text-sm text-pf-cream">UPI ID coming soon</span>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <img
+              src="/media/upi-qr.png"
+              alt={`UPI QR code for donating to ${ORG.legalName}`}
+              width={176}
+              height={176}
+              loading="lazy"
+              className="h-44 w-44 rounded-md bg-white p-2"
+            />
+            <div className="text-left">
+              <p className="text-sm uppercase tracking-wide text-pf-sage mb-1">UPI ID</p>
+              <p className="font-mono text-base text-white break-all">{ORG.upiId}</p>
+              <p className="mt-3 text-sm text-pf-sage">
+                Scan with any UPI app, then generate your 80G receipt below.
+              </p>
             </div>
           </div>
         </div>

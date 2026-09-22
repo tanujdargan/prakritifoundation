@@ -13,32 +13,17 @@ interface Story {
 }
 
 const SEED_STORIES: Story[] = [
+  // The foundation supplied before/after photos but no written accounts.
+  // The caption below describes only what the two photographs show; it is a
+  // placeholder for the real story and should be replaced with theirs.
   {
-    id: 'seed-1',
-    name: "Bella's Second Chance",
-    location: "Mumbai",
-    date: "December 2024",
-    before: "https://images.pexels.com/photos/1346086/pexels-photo-1346086.jpeg?auto=compress&cs=tinysrgb&w=400",
-    after: "https://images.pexels.com/photos/1851164/pexels-photo-1851164.jpeg?auto=compress&cs=tinysrgb&w=400",
-    story: "Found injured on the streets with a broken leg, Bella underwent surgery and months of rehabilitation. Today, she's living happily with the Kumar family, running and playing in their garden."
-  },
-  {
-    id: 'seed-2',
-    name: "Max's Transformation",
-    location: "Delhi",
-    date: "November 2024",
-    before: "https://images.pexels.com/photos/2253275/pexels-photo-2253275.jpeg?auto=compress&cs=tinysrgb&w=400",
-    after: "https://images.pexels.com/photos/1490908/pexels-photo-1490908.jpeg?auto=compress&cs=tinysrgb&w=400",
-    story: "Max was rescued from severe neglect, malnourished and fearful. After months of love, proper nutrition, and care, he's now a confident, healthy dog who brings joy to his new family every day."
-  },
-  {
-    id: 'seed-3',
-    name: "Luna's Journey Home",
-    location: "Bangalore",
-    date: "October 2024",
-    before: "https://images.pexels.com/photos/1346504/pexels-photo-1346504.jpeg?auto=compress&cs=tinysrgb&w=400",
-    after: "https://images.pexels.com/photos/1805164/pexels-photo-1805164.jpeg?auto=compress&cs=tinysrgb&w=400",
-    story: "Luna was found as a tiny puppy in a construction site. Through our adoption program, she found a loving home where she's grown into a beautiful, well-trained companion."
+    id: 'seed-calf',
+    name: 'A calf off the roadside',
+    location: 'Indore',
+    date: 'September 2026',
+    before: '/media/story-calf-before.jpg',
+    after: '/media/story-calf-after.jpg',
+    story: 'Picked up from the roadside by our team and moved to the shelter, where she is being fed and cared for.'
   }
 ];
 

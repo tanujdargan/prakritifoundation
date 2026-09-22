@@ -1,8 +1,9 @@
+import { ORG } from '../lib/organization';
 import React from 'react';
 import { MessageCircle, Phone } from 'lucide-react';
 
 const WhatsAppButton = () => {
-  const phoneNumber = "919876543210"; // Replace with actual WhatsApp number
+  const phoneNumber = ORG.phoneE164;
   const message = "Hello! I'm interested in learning more about Prakriti Foundation and how I can help.";
 
   const openWhatsApp = () => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Phone, MapPin, Facebook, Instagram, Twitter } from 'lucide-react';
+import { Mail, Phone, MapPin, Instagram } from 'lucide-react';
 import { ORG } from '../lib/organization';
 
 const Contact = () => {
@@ -64,25 +64,13 @@ const Contact = () => {
               </h4>
               <div className="flex gap-4">
                 <a
-                  href="#"
-                  aria-label="Facebook"
-                  className="bg-pf-forest hover:bg-pf-moss w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-200 cursor-pointer"
-                >
-                  <Facebook className="h-6 w-6 text-white" aria-hidden="true" />
-                </a>
-                <a
-                  href="#"
-                  aria-label="Instagram"
+                  href={ORG.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Prakriti Foundation on Instagram"
                   className="bg-pf-forest hover:bg-pf-moss w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-200 cursor-pointer"
                 >
                   <Instagram className="h-6 w-6 text-white" aria-hidden="true" />
-                </a>
-                <a
-                  href="#"
-                  aria-label="Twitter"
-                  className="bg-pf-forest hover:bg-pf-moss w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-200 cursor-pointer"
-                >
-                  <Twitter className="h-6 w-6 text-white" aria-hidden="true" />
                 </a>
               </div>
             </div>
