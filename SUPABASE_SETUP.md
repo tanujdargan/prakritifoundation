@@ -9,9 +9,22 @@
 > `content` storage bucket, and the `create_donation_receipt` function that
 > lets a donor generate a receipt without gaining read access to any other.
 >
-> Steps 1 and 2 below are therefore **already complete for this project**.
-> What remains is step 3 (create the admin user), turning off public
-> sign-ups, and pointing Vercel at the new URL and anon key.
+> Also done: the admin user `director@prakritifoundation.info` exists and is
+> on the `admin_users` allowlist, and Vercel has been pointed at the new
+> project.
+>
+> Access is no longer granted by "is signed in". Policies check
+> `public.is_admin()`, which requires a row in `admin_users`. A stranger who
+> signs up therefore reads nothing, verified by simulating exactly that. To
+> add another staff member, create the Auth user and then insert their id
+> into `admin_users` — creating the login alone is not enough, by design.
+>
+> Two things still need a human in the dashboard, neither of which now
+> protects anything on its own:
+>   1. Authentication -> Providers -> Email: turn **off** public sign-ups.
+>   2. Authentication -> Policies: enable **leaked password protection**
+>      (checks new passwords against HaveIBeenPwned). Supabase's own advisor
+>      flags this as disabled.
 >
 > The old project (`vjjhsagfkwqafflbchfq`) is still what production uses
 > until those env vars are swapped. Delete it only after migrating any rows

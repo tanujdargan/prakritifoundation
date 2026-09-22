@@ -45,29 +45,6 @@ const DonationReceipt: React.FC<DonationReceiptProps> = ({ isOpen, onClose }) =>
   const [showPreview, setShowPreview] = useState(false);
   const receiptRef = useRef<HTMLDivElement>(null);
 
-  const generateReceiptNumber = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('donation_receipts')
-        .select('receipt_no')
-        .order('created_at', { ascending: false })
-        .limit(1);
-
-      if (error) throw error;
-
-      let nextNumber = 1;
-      if (data && data.length > 0) {
-        const lastReceiptNo = data[0].receipt_no;
-        const lastNumber = parseInt(lastReceiptNo.replace('PF-', ''));
-        nextNumber = lastNumber + 1;
-      }
-
-      return `PF-${nextNumber.toString().padStart(6, '0')}`;
-    } catch (error) {
-      console.error('Error generating receipt number:', error);
-      return `PF-${Date.now().toString().slice(-6)}`;
-    }
-  };
 
   const handleAmountChange = (amount: number) => {
     setFormData(prev => ({
@@ -82,32 +59,36 @@ const DonationReceipt: React.FC<DonationReceiptProps> = ({ isOpen, onClose }) =>
     setIsGenerating(true);
 
     try {
-      const receiptNo = await generateReceiptNumber();
-      const updatedFormData = { ...formData, receiptNo };
-      setFormData(updatedFormData);
-
-      // ponytail: donorAddress/transactionId are display-only until a migration adds
-      // matching columns to donation_receipts; do not insert them yet.
-      const { error } = await supabase
-        .from('donation_receipts')
-        .insert({
-          receipt_no: receiptNo,
-          date: updatedFormData.date,
-          payment_method: updatedFormData.paymentMethod,
-          donator_name: updatedFormData.donatorName,
-          amount: updatedFormData.amount,
-          amount_in_words: updatedFormData.amountInWords,
-          pan_number: updatedFormData.panNumber || null,
-          aadhar_number: updatedFormData.aadharNumber || null,
-          received_by: updatedFormData.receivedBy
-        });
+      // Goes through a SECURITY DEFINER function rather than a table insert.
+      // A donor is anonymous, and anonymous callers deliberately have no access
+      // to donation_receipts at all - they must not be able to read other
+      // people's names, PAN numbers or amounts. The function creates the row and
+      // returns only the new receipt number, taken from a sequence so two people
+      // submitting at once cannot collide.
+      //
+      // donorAddress and transactionId are display-only until a migration adds
+      // matching columns; they are not sent.
+      const { data, error } = await supabase.rpc('create_donation_receipt', {
+        p_date: formData.date,
+        p_payment_method: formData.paymentMethod,
+        p_donator_name: formData.donatorName,
+        p_amount: formData.amount,
+        p_amount_in_words: formData.amountInWords,
+        p_received_by: formData.receivedBy,
+        p_pan_number: formData.panNumber || null,
+        p_aadhar_number: formData.aadharNumber || null
+      });
 
       if (error) throw error;
+      if (!data) throw new Error('No receipt number was returned.');
 
+      setFormData(prev => ({ ...prev, receiptNo: data as string }));
       setShowPreview(true);
     } catch (error) {
       console.error('Error saving receipt:', error);
-      alert('Error generating receipt. Please try again.');
+      alert(
+        'Sorry, the receipt could not be generated. Please try again, or contact us and we will issue it manually.'
+      );
     } finally {
       setIsGenerating(false);
     }
