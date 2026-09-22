@@ -27,12 +27,11 @@ export const ORG = {
   // For cheques and bank transfers. Deliberately excludes the account
   // holder's personal mobile, personal email and home address, which appear
   // on the cheque book but are not needed to pay and should not be published.
-  // IFSC is still missing and is required for NEFT/IMPS - cheques work
-  // without it, transfers do not.
   bank: {
     accountName: 'Prakriti Foundation',
     bankName: 'HDFC Bank',
     accountNumber: '50200115061294',
+    ifsc: 'HDFC0004506',
     branch: 'Palasia Main Road, Indore - 452001',
   },
 

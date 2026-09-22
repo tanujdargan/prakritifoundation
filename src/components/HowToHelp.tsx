@@ -151,10 +151,10 @@ const HowToHelp = () => {
             <img
               src="/media/upi-qr.png"
               alt={`UPI QR code for donating to ${ORG.legalName}`}
-              width={176}
-              height={176}
+              width={1000}
+              height={1409}
               loading="lazy"
-              className="h-44 w-44 rounded-md bg-white p-2"
+              className="w-52 h-auto rounded-md bg-white p-2"
             />
             <div className="text-left">
               <p className="text-sm uppercase tracking-wide text-pf-sage mb-1">UPI ID</p>
@@ -181,6 +181,10 @@ const HowToHelp = () => {
               <div className="sm:flex sm:gap-3">
                 <dt className="text-pf-sage sm:w-40 shrink-0">Account number</dt>
                 <dd className="text-white font-mono tabular-nums">{ORG.bank.accountNumber}</dd>
+              </div>
+              <div className="sm:flex sm:gap-3">
+                <dt className="text-pf-sage sm:w-40 shrink-0">IFSC</dt>
+                <dd className="text-white font-mono">{ORG.bank.ifsc}</dd>
               </div>
               <div className="sm:flex sm:gap-3">
                 <dt className="text-pf-sage sm:w-40 shrink-0">Branch</dt>
